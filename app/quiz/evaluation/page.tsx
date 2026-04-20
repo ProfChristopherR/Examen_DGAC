@@ -53,7 +53,7 @@ export default function EvaluationQuiz() {
 
   const fetchQuestions = async () => {
     try {
-      const res = await fetch('/questions.json')
+      const res = await fetch('../../questions.json')
       const data = await res.json()
       
       const formatted = (data ?? []).map((q: any) => ({
