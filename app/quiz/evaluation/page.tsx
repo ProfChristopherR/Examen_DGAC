@@ -174,9 +174,9 @@ export default function EvaluationQuiz() {
       `
 
       const emailData = {
-        service_id: 'service_tk59lq8', // PLACEHOLDER: Reemplazar con Service ID de EmailJS real
-        template_id: 'template_0wvz0b8', // PLACEHOLDER: Reemplazar con Template ID de EmailJS real
-        user_id: 'USER_ID_PLACEHOLDER', // PLACEHOLDER: Reemplazar con Public Key de EmailJS real
+        service_id: 'service_nbju40d',
+        template_id: 'template_9dvik9e',
+        user_id: 'QIlZqn3_PidWSY9Mm',
         template_params: {
           to_email: 'christopherruiz@liceosannicolas.cl',
           user_name: userName,
