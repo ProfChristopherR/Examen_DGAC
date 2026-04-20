@@ -1,0 +1,871 @@
+[
+  {
+    "number": 1,
+    "question": "Además de los requisitos técnicos de la norma DAN 151 para los vuelos en zonas urbanas se deberá cumplir con lo siguiente: I. Sólo se podrá volar hasta 30 metros medidos horizontalmente de una persona ajena a la operación. II. Solo se podrá operar en condiciones BVLOS. III. Para vuelos encima de 120 mts (400 pies) se deberá obtener previamente la autorización de la DGAC.",
+    "options": {
+      "a": "Solo I y II.",
+      "b": "Solo II y III.",
+      "c": "Solo I y III.",
+      "d": "I, II y III."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 2,
+    "question": "¿Cuál de las siguientes afirmaciones no está prohibida según la DAN 91?",
+    "options": {
+      "a": "Poner en riesgo la vida e integridad de las personas.",
+      "b": "Poner en riesgo la propiedad pública o privada.",
+      "c": "Operar en forma descuidada o temeraria, poniendo en riesgo a otras aeronaves en tierra o en el espacio aéreo.",
+      "d": "Operar fuera de áreas pobladas con autorización de la DGAC."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 3,
+    "question": "¿Cuáles son los pasos a seguir para la obtención de un permiso de vuelo con RPAS sobre área poblada que existan centros urbanos con asentamientos de personas habitacionales y laborales?",
+    "options": {
+      "a": "Sólo con el permiso del dueño del lugar.",
+      "b": "Permiso del dueño, propietario o administrador del lugar y luego informar al centro de control de tránsito aéreo.",
+      "c": "Enviar formulario de solicitud de autorización de vuelo, carta del dueño propietario del lugar, KMZ del área a sobrevolar.",
+      "d": "Enviar formulario de solicitud de autorización de vuelo indicando el objetivo del vuelo explicitando el trabajo aéreo según DAN 119 en concordancia a los trabajos autorizados en su AOC, carta del dueño propietario del lugar, KMZ del área a sobrevolar y la documentación del registro de aeronave, credencial de operador RPAS y póliza de seguro o resolución de la JAC."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 4,
+    "question": "Cual es uno de los requisitos fundamentales para operar en áreas pobladas según la norma DAN 151, para mitigar los riesgos de daños a personas e infraestructura y dar cumplimiento a la seguridad operacional:",
+    "options": {
+      "a": "El peso máximo del RPA debe ser de hasta 19 kg incluyendo accesorios.",
+      "b": "El RPA debe haber sido construido o armado desde diferentes kits de distintos fabricantes.",
+      "c": "El RPA debe contar con paracaídas de emergencia durante su operación.",
+      "d": "El RPA debe ser volado solo en forma autónoma."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 5,
+    "question": "De acuerdo al Art 82 del Código Aeronáutico, quedan prohibidas todas las operaciones de vuelos y sobrevuelos de RPAS de cualquier peso de despegue sobre:",
+    "options": {
+      "a": "Áreas densamente pobladas como centros urbanos o similares.",
+      "b": "Instalaciones militares, unidades de flota y bases aéreas de las Fuerzas Armadas, además de instalaciones carcelarias e instalaciones estratégicas definidas por el Estado de Chile.",
+      "c": "Sobre aglomeración de personas al aire libre como conciertos o festivales.",
+      "d": "Sobre parques nacionales y áreas protegidas."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 6,
+    "question": "Dentro de los requisitos técnicos exigidos a un RPA está:",
+    "options": {
+      "a": "La aeronave debe haber sido construida de un kit de fábrica y contar con instructivos técnicos de operación.",
+      "b": "Contar solo con motores eléctrico.",
+      "c": "Puede ser armado de piezas y partes de diferentes fabricantes y no contar con instructivos técnicos de operación.",
+      "d": "Ser de estructura metálica y partes plásticas."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 7,
+    "question": "Durante la operación de una aeronave pilotada a distancia quedará prohibido: I. Operar en zonas prohibidas y peligrosas publicadas por la DGAC. II. Operar más de un RPA en forma simultánea. III. Violar los derechos de otras personas en su privacidad y su intimidad.",
+    "options": {
+      "a": "Solo I.",
+      "b": "Solo I y II.",
+      "c": "Solo I y III.",
+      "d": "I, II y III."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 8,
+    "question": "Durante la operación en vuelo del RPAS el operador de RPAS debe permitir salvar cualquier obstáculo y personas que no estén involucradas en la operación, con un margen vertical de ______mts y con una separación horizontal de ________mts",
+    "options": {
+      "a": "10 y 20.",
+      "b": "20 y 30.",
+      "c": "30 y 20.",
+      "d": "20 y 10."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 9,
+    "question": "El ángulo de ataque es:",
+    "options": {
+      "a": "El ángulo formado entre la cuerda aerodinámica y la dirección del viento relativo.",
+      "b": "El ángulo con el cual sube más deprisa el avión.",
+      "c": "El ángulo formado entre el horizonte y el viento relativo.",
+      "d": "El ángulo formado entre el borde de fuga y el viento relativo."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 10,
+    "question": "El camino seguido por una aeronave durante su desplazamiento por el aire, se denomina:",
+    "options": {
+      "a": "Aerovía.",
+      "b": "Viento relativo.",
+      "c": "Trayectoria de vuelo.",
+      "d": "Trayectoria."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 11,
+    "question": "El METAR de Valdivia registra: METAR SCVD 211400Z 12003KT 4000 VCFG BKN020 04/03 Q1026= la visibilidad está restringida por:",
+    "options": {
+      "a": "Niebla.",
+      "b": "Niebla baja.",
+      "c": "Niebla en la vecindad.",
+      "d": "Niebla en bancos."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 12,
+    "question": "El movimiento alrededor del eje lateral, se denomina:",
+    "options": {
+      "a": "Alabeo.",
+      "b": "Cabeceo.",
+      "c": "Pérdida.",
+      "d": "Ganancia."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 13,
+    "question": "El peso máximo de despegue de un RPA de acuerdo a la norma DAN 151 debe ser de hasta:",
+    "options": {
+      "a": "6 kilos.",
+      "b": "8 kilos.",
+      "c": "9 kilos.",
+      "d": "7 kilos."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 14,
+    "question": "El plazo para enviar las solicitudes de operación según Anexo D de la norma DAN 91 y apéndice a de la norma DAN 151 es de:",
+    "options": {
+      "a": "10 días hábiles.",
+      "b": "5 días hábiles.",
+      "c": "15 días hábiles.",
+      "d": "7 días hábiles."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 15,
+    "question": "En caso de incumplimiento de la normativa aeronáutica dará motivo para que la DGAC aplique lo establecido en el siguiente reglamento del procedimiento infraccional aeronáutico:",
+    "options": {
+      "a": "DAR 13.",
+      "b": "DAR 06.",
+      "c": "DAR 51.",
+      "d": "DAR 61."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 16,
+    "question": "En cuanto a las responsabilidades del operador de un RPAS, el código penal en su artículo 161-a, establece que se castigará con al que, en recintos particulares o lugares que no sean de libre acceso al público, sin autorización del afectado y por cualquier medio, capte, intercepte, grabe o reproduzca conversaciones o comunicaciones de carácter privado; sustraiga, fotografié, fotocopie o reproduzca documentos o instrumentos de carácter privado; o capte, grabe, filme o fotografié imágenes o hechos de carácter privado que se produzcan, realicen, ocurran o existan en recintos particulares o lugares que no sean de libre acceso al público.",
+    "options": {
+      "a": "Con presidio menor.",
+      "b": "Sólo una multa, dependiendo de la infracción.",
+      "c": "Con la pena de reclusión menor en cualquiera de sus grados y multa de 50 a 500 unidades tributarias mensuales.",
+      "d": "Una multa determinada por la sección infraccional de la DGAC."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 17,
+    "question": "En METAR, la abreviatura NIL significa:",
+    "options": {
+      "a": "Estación cerrada.",
+      "b": "Instrumentos fuera de servicio.",
+      "c": "Reparación de instalaciones.",
+      "d": "Estación ausente o datos faltantes."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 18,
+    "question": "En punta arenas se informaron los siguientes datos: METAR SCCI 160800Z 29014G24KT 9999 FEW013 01/M03 Q0985 NOSIG= ¿Cuál es racha máxima del viento informado?:",
+    "options": {
+      "a": "29 kt.",
+      "b": "24 kt.",
+      "c": "14 kt.",
+      "d": "01 kt."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 19,
+    "question": "En qué condiciones se exceptúan el control manual del RPA según la norma DAN 151: I. Operaciones especiales con fines fotogramétricos. II. Operaciones de vigilancia aérea nocturna. III. Aspersión agrícola. IV. Operaciones con sensores LIDAR o similares.",
+    "options": {
+      "a": "Solo II y IV.",
+      "b": "Solo I, II y IV.",
+      "c": "Solo I, III, IV.",
+      "d": "I, II, III y IV."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 20,
+    "question": "En un vuelo recto y nivelado, sin aceleración o deceleración, las fuerzas que están equilibradas son:",
+    "options": {
+      "a": "La sustentación igual al empuje.",
+      "b": "La sustentación distinta al empuje.",
+      "c": "La sustentación distinta al peso.",
+      "d": "La sustentación igual al peso."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 21,
+    "question": "Es la operación en la cual la tripulación remota mantiene contacto visual directo con la aeronave para dirigir su vuelo y satisfacer las responsabilidades de separación y anticolisión.",
+    "options": {
+      "a": "Operación de vuelo.",
+      "b": "Operación con visibilidad directa visual (VLOS).",
+      "c": "Operación más allá de la visibilidad directa visual (BVLOS).",
+      "d": "Operación visual."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 22,
+    "question": "“Espacio aéreo de dimensiones definidas sobre el territorio o las aguas jurisdiccionales de chile dentro del cual está prohibido el vuelo de aeronaves por razones de seguridad nacional”. se denomina:",
+    "options": {
+      "a": "Zona restringida.",
+      "b": "Zona peligrosa.",
+      "c": "Zona insegura.",
+      "d": "Zona prohibida."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 23,
+    "question": "Gradiente vertical de temperatura se define como:",
+    "options": {
+      "a": "La variación de la temperatura con la altura.",
+      "b": "El cambio de temperatura a lo largo del día.",
+      "c": "La variación de presión con la temperatura.",
+      "d": "El cambio de la dirección del viento."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 24,
+    "question": "La abreviatura BCFG usada en claves meteorológicas del METAR significa:",
+    "options": {
+      "a": "Niebla.",
+      "b": "Niebla baja.",
+      "c": "Niebla en la vecindad.",
+      "d": "Niebla en bancos."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 25,
+    "question": "La altura máxima de operación de un RPA según la DAN 151 es:",
+    "options": {
+      "a": "400 pies.",
+      "b": "400 mts.",
+      "c": "450 pies.",
+      "d": "120 pies."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 26,
+    "question": "La autorización emitida por la DGAC para operar en áreas pobladas según la DAN 151 tiene una validez de _________ meses:",
+    "options": {
+      "a": "6.",
+      "b": "2.",
+      "c": "3.",
+      "d": "12."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 27,
+    "question": "La brisa marina está originada por:",
+    "options": {
+      "a": "El oleaje del mar.",
+      "b": "El amanecer y el atardecer del día.",
+      "c": "La mayor humedad de la superficie del mar.",
+      "d": "La diferencia térmica entre el mar y la tierra."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 28,
+    "question": "La capa de la atmósfera en la cual se desarrollan las actividades de los RPAS, se denomina:",
+    "options": {
+      "a": "Estratosfera.",
+      "b": "Tropósfera.",
+      "c": "Tropopausa.",
+      "d": "Exosfera."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 29,
+    "question": "La credencial de RPA permite al portador:",
+    "options": {
+      "a": "Desempeñarse como operador de RPAS solo en condiciones (VLOS).",
+      "b": "Desempeñarse como operador de RPAS en condición (BVLOS)",
+      "c": "Desempeñarse como operador de RPAS en cualquier condición.",
+      "d": "a) y b)."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 30,
+    "question": "La definición de “áreas pobladas” es:",
+    "options": {
+      "a": "Zonas destinadas para espectáculos de congregación masiva de personas.",
+      "b": "Zonas en las que se desarrollen actividades que convoquen la aglomeración de personas al aire libre.",
+      "c": "Terrenos destinados para ser habitados por poblaciones humanas.",
+      "d": "Zonas en las que existan centros urbanos o se desarrollen actividades que convoquen la aglomeración de personas al aire libre."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 31,
+    "question": "La definición de nivel aceptable de seguridad operacional (ALOS)",
+    "options": {
+      "a": "Nivel o criterio establecido fuera del intervalo normal de funcionamiento o fuera de la región de control que dispara una alerta indicando la necesidad de una evaluación o un ajuste.",
+      "b": "Nivel mínimo de rendimiento en materia de seguridad operacional expresado en términos de objetivos e indicadores de seguridad operaciones.",
+      "c": "Responde al análisis permanente de los acontecimientos en desarrollo al interior del proveedor de servicios aeronáuticos.",
+      "d": "Son los objetivos de mediano y largo plazo, establecidos en términos numéricos y que se relacionan con el nivel aceptable de la seguridad operacional."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 32,
+    "question": "La definición: “persona designada por el explotador para operar los controles de vuelo de una aeronave pilotada a distancia durante el tiempo de vuelo. a falta de persona designada, se presumirá que el piloto es quien dirige la operación de vuelo”, corresponde al concepto de:",
+    "options": {
+      "a": "Piloto.",
+      "b": "Explorador.",
+      "c": "Piloto a distancia.",
+      "d": "Explotador a distancia."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 33,
+    "question": "La definición: “una operación durante la cual una aeronave pilotada a distancia vuela sin intervención de piloto en la gestión de vuelo”, corresponde al concepto de:",
+    "options": {
+      "a": "Operación restringida.",
+      "b": "Operación con visibilidad directa visual.",
+      "c": "Operación en gestión de vuelo.",
+      "d": "Operación autónoma."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 34,
+    "question": "La dirección de la brisa marina por la noche es:",
+    "options": {
+      "a": "Del mar hacia la tierra.",
+      "b": "Paralelo a la costa.",
+      "c": "Relativa.",
+      "d": "De la tierra hacia el mar."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 35,
+    "question": "La fuerza aerodinámica es:",
+    "options": {
+      "a": "La fuerza paralela al viento relativo.",
+      "b": "La fuerza resultante de la sustentación y la resistencia inducida.",
+      "c": "La fuerza resultante de la fuerza centrífuga y el peso.",
+      "d": "La fuerza resultante de la sustentación y el peso de la aeronave."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 36,
+    "question": "La fuerza en dirección perpendicular hacia la superficie de la tierra se denomina:",
+    "options": {
+      "a": "Empuje o tracción.",
+      "b": "Sustentación.",
+      "c": "Peso o gravedad.",
+      "d": "Resistencia."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 37,
+    "question": "La niebla se forma cuando:",
+    "options": {
+      "a": "Existe aire húmedo y gran densidad.",
+      "b": "Las nubes descienden hasta el nivel del suelo.",
+      "c": "El aire se enfría por debajo de su punto de rocío.",
+      "d": "El aire se calienta por encima de su punto de rocío."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 38,
+    "question": "La niebla se forma cuando:",
+    "options": {
+      "a": "Existe aire húmedo y gran densidad.",
+      "b": "Las nubes descienden hasta el nivel del suelo.",
+      "c": "El aire se enfría por debajo de su punto de rocío.",
+      "d": "Las nubes se enfrían por debajo de su punto de rocío."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 39,
+    "question": "La nube más peligrosa para desarrollar el vuelo es:",
+    "options": {
+      "a": "NS.",
+      "b": "CB.",
+      "c": "SC.",
+      "d": "CI."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 40,
+    "question": "La resistencia inducida es:",
+    "options": {
+      "a": "La que se produce debido a la sustentación.",
+      "b": "La que proporciona mayor velocidad.",
+      "c": "La suma de la gravedad más la resistencia parásita.",
+      "d": "La que se produce debido al peso de la aeronave."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 41,
+    "question": "Las causas principales que originan las turbulencias son:",
+    "options": {
+      "a": "Corrientes convectivas.",
+      "b": "Obstrucciones al flujo del viento.",
+      "c": "Cortante del viento.",
+      "d": "Todas las anteriores."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 42,
+    "question": "La sustentación es:",
+    "options": {
+      "a": "La fuerza hacia arriba perpendicular al viento relativo y desarrollada para soportar el peso de la aeronave.",
+      "b": "La fuerza aerodinámica, más la resistencia parásita.",
+      "c": "La fuerza perpendicular al viento relativo y desarrollada para realizar la tracción de la aeronave.",
+      "d": "La fuerza aerodinámica que soporta el peso de la aeronave."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 43,
+    "question": "La temperatura a la cual se alcanza el punto de saturación del vapor de agua, se denomina:",
+    "options": {
+      "a": "Punto de saturación.",
+      "b": "Punto de rocío.",
+      "c": "Temperatura de ebullición.",
+      "d": "Temperatura de saturación."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 44,
+    "question": "La temperatura de la atmósfera estándar a nivel del mar es de:",
+    "options": {
+      "a": "25º C.",
+      "b": "15º C.",
+      "c": "50º C.",
+      "d": "0° C."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 45,
+    "question": "La turbulencia mecánica se crea:",
+    "options": {
+      "a": "Por las térmicas de calor.",
+      "b": "Por las ráfagas de viento.",
+      "c": "Por el rozamiento del aire con la superficie.",
+      "d": "Por la relación entre ráfagas de viento y térmicas de calor."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 46,
+    "question": "Mencione las sanciones establecidas en el Código Aeronáutico, Art 185. I. Amonestación escrita. II. Multas de 5 a 500 ingresos mínimos. III. Suspensión de permisos y licencias hasta por 3 años. IV. Cancelación definitiva de permisos o licencia.",
+    "options": {
+      "a": "Solo I, II y IV.",
+      "b": "Solo II y IV.",
+      "c": "Solo I, II y III.",
+      "d": "I, II, III y IV."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 47,
+    "question": "METAR de Valdivia SCVD 211400Z 12003KT 0500 VCDG BKN 020 04/03 Q1026 NOSIG, la temperatura del punto de rocío es:",
+    "options": {
+      "a": "5 grados.",
+      "b": "4 grados.",
+      "c": "3 grados.",
+      "d": "Ninguna de las anteriores."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 48,
+    "question": "METAR de Valdivia SCVD 211400Z 12003KT 0500 VCFG BKN 020 04/03 Q1026 NOSIG, la visibilidad es de:",
+    "options": {
+      "a": "1400 metros.",
+      "b": "500 metros.",
+      "c": "0.5 MN.",
+      "d": "Ninguna de las anteriores."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 49,
+    "question": "METAR de Valdivia SCVD 211400Z 12003KT 4000 VCFG BKN 020 04/03 Q1026 NOSIG, la dirección e intensidad del viento es:",
+    "options": {
+      "a": "020 grados con 04 nudos.",
+      "b": "211 grados con 40 nudos.",
+      "c": "120 grados con 03 nudos.",
+      "d": "040 grados con 03 nudos."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 50,
+    "question": "Ninguna aeronave pilotada a distancia se utilizará sobre el _____ de otro estado sin la previa ______ especial concedida por el estado en el que se efectuará el vuelo.",
+    "options": {
+      "a": "Derecho, convalidación.",
+      "b": "Territorio, convalidación.",
+      "c": "Derecho, autorización.",
+      "d": "Territorio, autorización."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 51,
+    "question": "No se podrá operar un RPA a:",
+    "options": {
+      "a": "Menos de 2,5 km de la línea del eje de la pista y a 2 km paralelo al eje de la pista de un aeródromo.",
+      "b": "Menos de 1 km de la línea del eje de la pista y a 500 m paralelo al eje de la pista de un aeródromo.",
+      "c": "Menos de 1,5 km de la línea del eje de la pista y a 1 km paralelo al eje de la pista de un aeródromo.",
+      "d": "A menos de 2 kilómetros de la prolongación del eje de la pista, medidos desde el umbral y a una distancia menor de 1 kilómetro paralelo al eje de la pista de un aeródromo."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 52,
+    "question": "Para la correcta planificación de un vuelo de RPAS, el operador entre otras condiciones deberá: I. Verificar plataforma IFIS, en lo particular si existen NOTAMS vigentes en la zona a sobrevolar. II. Verificar las condiciones meteorológicas a través de METAR. III. Verificar los aeródromos públicos y privados cercanos a la zona de vuelo los cuales deben ser informados en la solicitud de vuelo lo anterior en función de la mitigación de riesgos operacionales. IV. Avisar a la municipalidad del área a operar.",
+    "options": {
+      "a": "Solo I y IV.",
+      "b": "Solo I, II y IV.",
+      "c": "Solo I, II y III.",
+      "d": "I, II, III y IV."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 53,
+    "question": "Para la obtención y revalidación de la credencia se deberá aprobar un examen escrito sobre las siguientes materias",
+    "options": {
+      "a": "DAN 151, DAN 91, NOTAMS, meteorología y aerodinámica.",
+      "b": "DAN 151, meteorología, aerodinámica y operaciones aéreas.",
+      "c": "DAN 151, MOTAMS, meteorología y operaciones aérea.",
+      "d": "DAN 151, DAN 91, meteorología, aerodinámica y operaciones aéreas."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 54,
+    "question": "Para que la formación de niebla sea probable, debe existir:",
+    "options": {
+      "a": "Nubes en altura y corrientes descendentes de aire húmedo.",
+      "b": "Fuerte viento y alta humedad relativa a nivel del suelo.",
+      "c": "Alta humedad, temperatura y punto de rocío próximo y viento en calma.",
+      "d": "Nubes en altura y fuerte viento."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 55,
+    "question": "Para un vuelo de carácter recreacional en área poblada no se requiere permiso de la DGAC.",
+    "options": {
+      "a": "Si la aeronave es de polietileno expandido y/o material equivalente no importando su peso.",
+      "b": "Si la aeronave es de polietileno expandido y/o material equivalente sólo si el peso máximo de la aeronave es de 750 gramos.",
+      "c": "Sólo si la aeronave es de polietileno expandido (plumavit).",
+      "d": "Solo si pes menos de 750 grs."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 56,
+    "question": "¿Qué es necesario para que se produzcan precipitaciones?",
+    "options": {
+      "a": "Que la temperatura ambiente sea elevada.",
+      "b": "Que la presión atmosférica sea alta.",
+      "c": "Que el aire esté saturado.",
+      "d": "d - que el aire esté contaminado."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 57,
+    "question": "¿Qué se entiende por seguridad operacional?",
+    "options": {
+      "a": "Seguridad operacional es el estado en que el riesgo de lesiones a las personas o daños a los bienes se reduce y se mantiene en un nivel aceptable, o por debajo del mismo, por medio de un proceso continuo de identificación de peligros y gestión de riesgos.",
+      "b": "Seguridad operacional es el estado en que el riesgo de lesiones a las personas se aumenta y no se mantiene en un nivel aceptable, que se realiza por medio de un proceso discontinuo de identificación de peligros y gestión de riesgos.",
+      "c": "Es un concepto que solo se ocupa en chile, respecto a la seguridad de las aeronaves.",
+      "d": "Parámetro de seguridad basado en datos que se utiliza para observar y evaluar el rendimiento en materia de riesgo operacional."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 58,
+    "question": "Quién es el responsable de la conducción segura de las operaciones de acuerdo con la normativa DAN 151:",
+    "options": {
+      "a": "El explotador.",
+      "b": "El dueño de la empresa.",
+      "c": "La DGAC.",
+      "d": "El piloto a distancia."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 59,
+    "question": "Se define como ráfaga:",
+    "options": {
+      "a": "El valor de la intensidad del viento cuando es constante.",
+      "b": "La turbulencia creada por la intensidad del viento.",
+      "c": "La turbulencia creada al sotavento de una montaña.",
+      "d": "El valor máximo de la intensidad del viento cuando no es constante."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 60,
+    "question": "Se dice que el aire está saturado cuando:",
+    "options": {
+      "a": "No se puede comprimir más.",
+      "b": "No admite mayor cantidad de vapor de agua.",
+      "c": "Su tensión de vapor es mínima.",
+      "d": "Presenta máxima densidad."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 61,
+    "question": "Se dice que el viento es constante cuando:",
+    "options": {
+      "a": "Unas veces lleva un sentido y en otras ocasiones otro.",
+      "b": "Su acción es constante y en la misma dirección.",
+      "c": "Su acción es constante, pero puede variar su dirección.",
+      "d": "Se desplaza en una sola dirección."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 62,
+    "question": "Según la norma DAN 151, Cual es la información técnica que debe entregar el propietario de un RPA para inscribir la aeronave: I. Fabricante, país. II. Marca modelo y número de serie. III. Color y tipo de material de la aeronave. IV. Peso de fábrica.",
+    "options": {
+      "a": "Solo I y II.",
+      "b": "Solo I, II y III.",
+      "c": "Solo I, II y IV.",
+      "d": "I, II, III y IV."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 63,
+    "question": "Según la norma DAN 151, la duración de la credencial de operador de RPA será de:",
+    "options": {
+      "a": "12 meses.",
+      "b": "24 meses.",
+      "c": "36 meses.",
+      "d": "6 meses."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 64,
+    "question": "Según la norma DAN 151 uno de los requisitos para la obtención de la credencial de operador de RPAS es:",
+    "options": {
+      "a": "Tener menos de 18 años.",
+      "b": "Aprobar el examen escrito solo de materias de la normativa aeronáutica.",
+      "c": "Presentar una declaración jurada simple firmada manualmente que incluya huella digital de la persona que suscribe de haber recibido instrucción teórica y práctica de acuerdo al formulario del apéndice c de la norma, acompañado del respectivo certificado de la empresa que impartió la instrucción.",
+      "d": "Obtener una calificación mínima de aprobación de los exámenes de 70%."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 65,
+    "question": "Según la norma DAN 151 un piloto a distancia durante la operación de un RPA no podrá: I. Operar más de un RPA en forma simultanea II. Operar bajo la influencia de las drogas o el alcohol III. Operar en áreas donde se combate un incendio por medio de aeronaves tripuladas IV. Operar a una distancia de 1 km de la prolongación del eje de pista, desde el umbral y a una distancia de 2 km paralelo del eje de la pista.",
+    "options": {
+      "a": "Solo I, II y III.",
+      "b": "Solo II, III y IV",
+      "c": "Solo I, III y IV",
+      "d": "I, II, III y IV."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 66,
+    "question": "Según la norma DAN 151 un piloto a distancia durante la operación de un RPA podrá:",
+    "options": {
+      "a": "Operar en zonas prohibidas y zonas peligrosas publicadas por la DGAC.",
+      "b": "Operar en zonas restringidas, sin autorización de la DGAC.",
+      "c": "Operar en la noche con una autorización especial de la DGAC.",
+      "d": "Operar sin tomar conocimiento de los NOTAMS vigentes publicados por la DGAC."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 67,
+    "question": "Según la siguiente información de concepción: METAR SCIE 161500Z 02005KT CAVOK 12/07 q1018= la abreviatura CAVOK determina que la visibilidad, el tiempo presente y las nubes son respectivamente:",
+    "options": {
+      "a": "Ilimitada; sin precipitaciones; sin CB ni nubes bajo la altitud mínima del sector.",
+      "b": "Superior a 5 km; despejado; sin CB.",
+      "c": "Superior a 10 km; no hay CB ni nubes bajo 1500 mts. (5000 pies)",
+      "d": "Ilimitada y despejado."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 68,
+    "question": "Según la siguiente información del aeródromo de atacama: METAR SCAT 161500Z 20008KT 180V240 7000 SKC 15/09 q 1019= los datos de viento informado son:",
+    "options": {
+      "a": "230 grados con 3 nudos y arrachado.",
+      "b": "Calma, cambiando a variable.",
+      "c": "200 grados con 8 nudos, fluctuando entre los 180 grados y los 240 grados.",
+      "d": "200 grados con 3 nudos y variable."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 69,
+    "question": "Según la siguiente información del aeródromo Rodelillo: METAR SCRD 151700Z VRB01KT 0400 FG OVC002 15/15 Q1015= el fenómeno que reduce la visibilidad y el techo son respectivamente:",
+    "options": {
+      "a": "Niebla y 200 pies.",
+      "b": "Niebla y 600 metros.",
+      "c": "Neblina y 20 metros.",
+      "d": "Humo y 200 pies."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 70,
+    "question": "Según los siguientes datos de Antofagasta: METAR SCFA 141200Z VRB02KT 9999 NCS 12/11 Q1015 NOSIG= la visibilidad y la nubosidad reportadas son respectivamente:",
+    "options": {
+      "a": "Superior a 10 km y no significativa.",
+      "b": "Inferior a 10 km y escasa.",
+      "c": "Reducida y abundante.",
+      "d": "9 km y despejado."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 71,
+    "question": "Si aumentamos el ángulo de ataque en un perfil alar, la sustentación:",
+    "options": {
+      "a": "Aumentará.",
+      "b": "disminuirá.",
+      "c": "Se mantendrá igual.",
+      "d": "No cambia."
+    },
+    "correctAnswer": "a"
+  },
+  {
+    "number": 72,
+    "question": "Si un ciudadano o ciudadana se siente vulnerado en su privacidad en intimidad por la presencia y/o sobrevuelo de un RPAS, a quienes se puede recurrir para denunciar este hecho:",
+    "options": {
+      "a": "Seguridad pública de la comuna correspondiente inspectores municipales.",
+      "b": "Policía de investigaciones.",
+      "c": "Carabineros de Chile y la denuncia al Juzgado de Policía Local.",
+      "d": "Solo a la DGAC."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 73,
+    "question": "Toda aeronave piloteada a distancia, previo a realizar cualquier operación de vuelo, deberá contar con la autorización:",
+    "options": {
+      "a": "Del Departamento Aeródromos y Servicios Aeronáuticos.",
+      "b": "De la Junta Aeronáutica Civil.",
+      "c": "De la Dirección General de Aeronáutica Civil.",
+      "d": "De la Fuerza Aérea de Chile."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 74,
+    "question": "Toda persona que se encuentre operando un RPA deberá portar:",
+    "options": {
+      "a": "Registro del RPA, póliza de seguro o resolución de la JAC, autorización de la DGAC, certificado AOC o CEO y las respectiva EEOO (especificación de las operaciones).",
+      "b": "Solo la autorización de operación de RPAS otorgada por la DGAC.",
+      "c": "Registro del RPA, credencial de operador RPAS, póliza de seguro o resolución de la JAC, autorización de la DGAC, certificado AOC o CEO y las respectiva EEOO (especificación de las operaciones)",
+      "d": "Registro del RPA, credencial de operador RPAS, autorización de la DGAC, certificado AOC o CEO y las respectiva EEOO (especificación de las operaciones)."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 75,
+    "question": "Tras un reclamo de un ciudadano o ciudadana, bajo qué circunstancia se podría requisar el RPA al operador.",
+    "options": {
+      "a": "Si la DGAC lo estima conveniente a través de su Departamento Jurídico.",
+      "b": "Si lo sorprende Carabineros de Chile.",
+      "c": "Sólo tras la autorización del fiscal o la fiscal al funcionario policial, sólo si estamos ante la presencia de un hecho que pudiese ser constitutivo de delito.",
+      "d": "Solo por un inspector de la DGAC."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 76,
+    "question": "Un operador de RPA podrá operar en áreas restringidas:",
+    "options": {
+      "a": "Cuando lo estime necesario.",
+      "b": "Cuando cuente con autorización de la autoridad competente.",
+      "c": "Cuando cuente con autorización de la Torre de Control.",
+      "d": "Cuando esté en una situación de emergencia."
+    },
+    "correctAnswer": "b"
+  },
+  {
+    "number": 77,
+    "question": "Un vuelo de carácter recreacional lo podemos ejecutar en:",
+    "options": {
+      "a": "En la vía pública con cualquier RPA y sin autorización de la DGAC.",
+      "b": "En la vía pública con permiso de la DGAC y con cualquier modelo de RPA.",
+      "c": "En zona no poblada, con la autorización formal de la DGAC hasta 400 pies.",
+      "d": "En lugar privado y siempre que no opere a más de 50 metros de altura y con un peso inferior a 750 grs."
+    },
+    "correctAnswer": "d"
+  },
+  {
+    "number": 78,
+    "question": "Viento relativo es:",
+    "options": {
+      "a": "El formado por la hélice al pasar por el perfil alar.",
+      "b": "La corriente de aire que sigue a la aeronave en su trayectoria.",
+      "c": "La corriente o flujo de aire moviéndose hacia el perfil, siendo opuesto a la trayectoria de vuelo.",
+      "d": "El formado por el aspa al pasar por el perfil alar."
+    },
+    "correctAnswer": "c"
+  },
+  {
+    "number": 79,
+    "question": "Zona peligrosa (D) es:",
+    "options": {
+      "a": "Espacio aéreo de dimensiones definidas sobre el territorio o las aguas jurisdiccionales de chile, dentro del cual está prohibido el vuelo de aeronaves por razones de seguridad nacional.",
+      "b": "Espacio aéreo de dimensiones definidas en el cual pueden desplegarse en determinados momentos actividades peligrosas para el vuelo de las aeronaves.",
+      "c": "Espacio aéreo de dimensiones definidas sobre el territorio o las aguas jurisdiccionales de chile, dentro del cual está restringido el vuelo de las aeronaves de acuerdo con determinadas condiciones especificadas.",
+      "d": "Ninguna de las anteriores."
+    },
+    "correctAnswer": "b"
+  }
+]
