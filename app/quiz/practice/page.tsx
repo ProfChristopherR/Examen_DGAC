@@ -133,6 +133,11 @@ export default function PracticeQuiz() {
     }
   }
 
+  const showAllAnswers = () => {
+    // Reveal all answers immediately
+    handleSubmit()
+  }
+
   const getOptionText = (result: ResultItem, letter: string) => {
     const map: Record<string, string> = {
       a: result?.optionA ?? '',
@@ -379,6 +384,13 @@ export default function PracticeQuiz() {
             className="bg-muted text-foreground px-4 py-2.5 rounded-lg font-medium inline-flex items-center gap-1.5 hover:bg-muted/80 transition-colors disabled:opacity-40"
           >
             <ChevronLeft className="w-4 h-4" /> Anterior
+          </button>
+
+          <button
+            onClick={showAllAnswers}
+            className="text-primary hover:text-primary/80 text-sm font-medium transition-colors hidden sm:block"
+          >
+            Ver todas las respuestas correctas
           </button>
 
           {currentIndex === totalQuestions - 1 ? (

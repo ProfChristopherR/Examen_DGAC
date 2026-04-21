@@ -101,12 +101,14 @@ export default function EvaluationQuiz() {
     if (submitted) return
     const answeredCount = Object.keys(answers ?? {})?.length ?? 0
     const totalCount = questions?.length ?? 0
+    
     if (answeredCount < totalCount) {
-      const unanswered = totalCount - answeredCount
-      if (!confirm(`Tienes ${unanswered} pregunta(s) sin responder. Esta es tu \u00fanica oportunidad. \u00bfDeseas enviar de todos modos?`)) return
-    } else {
-      if (!confirm('\u00bfEst\u00e1s seguro de enviar? Esta es tu \u00fanica oportunidad.')) return
+      toast.error(`Debes responder todas las preguntas (${answeredCount}/${totalCount}) antes de finalizar la evaluación.`)
+      return
     }
+
+    if (!confirm('\u00bfEst\u00e1s seguro de enviar? Esta es tu \u00fanica oportunidad.')) return
+
 
     setSubmitting(true)
     try {
@@ -356,6 +358,12 @@ export default function EvaluationQuiz() {
             <ArrowLeft className="w-4 h-4" /> Salir
           </button>
           <div className="flex items-center gap-2">
+            <button 
+              onClick={fillRandomAnswers}
+              className="text-[10px] text-muted-foreground opacity-30 hover:opacity-100 transition-opacity mr-4 decoration-dotted underline"
+            >
+              Test Button
+            </button>
             <ClipboardCheck className="w-4 h-4 text-green-500" />
             <span className="text-sm font-medium text-foreground">Evaluación</span>
           </div>
