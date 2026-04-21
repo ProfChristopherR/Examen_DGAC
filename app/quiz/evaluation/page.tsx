@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ClipboardCheck, ChevronLeft, ChevronRight, Check, X, ArrowLeft, Send, Trophy, AlertCircle, Mail, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -41,6 +41,7 @@ export default function EvaluationQuiz() {
   const [emailSending, setEmailSending] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const hasSubmittedRef = useRef(false)
 
   useEffect(() => {
     const userId = localStorage.getItem('rpas_user_id')
@@ -108,11 +109,13 @@ export default function EvaluationQuiz() {
   }
 
   const handleSubmit = async () => {
-    if (submitted) return
+    if (submitted || hasSubmittedRef.current) return
+    hasSubmittedRef.current = true
     const answeredCount = Object.keys(answers ?? {})?.length ?? 0
     const totalCount = questions?.length ?? 0
     
     if (answeredCount < totalCount) {
+      hasSubmittedRef.current = false
       toast.error(`Debes responder todas las preguntas (${answeredCount}/${totalCount}) antes de finalizar la evaluación.`)
       return
     }
