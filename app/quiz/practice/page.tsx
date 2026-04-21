@@ -134,8 +134,34 @@ export default function PracticeQuiz() {
   }
 
   const showAllAnswers = () => {
-    // Reveal all answers immediately
-    handleSubmit()
+    // Fill all answers with correct values, then show results
+    const correctAnswers: Record<string, string> = {}
+    questions.forEach((q: any) => {
+      correctAnswers[q.id] = q.correctAnswer
+    })
+    const totalCount = questions.length
+    const resultsArr = questions.map((q: any) => ({
+      questionId: q.id,
+      questionNumber: q.number,
+      questionText: q.questionText,
+      optionA: q.optionA,
+      optionB: q.optionB,
+      optionC: q.optionC,
+      optionD: q.optionD,
+      userAnswer: q.correctAnswer,
+      correctAnswer: q.correctAnswer,
+      isCorrect: true
+    }))
+    setAnswers(correctAnswers)
+    setResults({
+      success: true,
+      correctCount: totalCount,
+      totalQuestions: totalCount,
+      percentage: 100,
+      grade: '7,0',
+      results: resultsArr
+    })
+    setShowResults(true)
   }
 
   const getOptionText = (result: ResultItem, letter: string) => {

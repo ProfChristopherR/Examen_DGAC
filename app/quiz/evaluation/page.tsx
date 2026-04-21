@@ -117,16 +117,12 @@ export default function EvaluationQuiz() {
       return
     }
 
-    if (!confirm('\u00bfEst\u00e1s seguro de enviar? Esta es tu \u00fanica oportunidad.')) return
-
-
     setSubmitting(true)
     try {
       const userName = localStorage.getItem('rpas_user_name') ?? ''
       const userEmail = localStorage.getItem('rpas_user_email') ?? ''
 
-      // Simulate network wait for UX
-      await new Promise(resolve => setTimeout(resolve, 800))
+      await new Promise(resolve => setTimeout(resolve, 600))
       
       let correctCount = 0
       const resultsArr = questions.map((q: any) => {
@@ -167,53 +163,53 @@ export default function EvaluationQuiz() {
       setShowResults(true)
       setSubmitted(true)
 
-      // Send email with EmailJS REST API
+      // Build email body
+      const incorrectList = resultsArr
+        .filter((r: any) => !r.isCorrect)
+        .map((r: any) => `#${r.questionNumber} ${r.questionText}\n  Tu resp: ${(r.userAnswer || '?').toUpperCase()} - ${getOptionText(r, r.userAnswer)}\n  Correcta: ${r.correctAnswer.toUpperCase()} - ${getOptionText(r, r.correctAnswer)}`)
+        .join('\n\n')
+
+      const emailBody = `Alumno: ${userName}\nEmail: ${userEmail}\nNota: ${gradeStr}\nPorcentaje: ${percentage}%\nCorrectas: ${correctCount}/${totalCount}\n\n--- INCORRECTAS ---\n${incorrectList}`
+
+      // Send email to professor
       setEmailSending(true)
-      
-      const emailContent = `
-        Nombre: ${userName}
-        Email: ${userEmail}
-        Nota: ${gradeStr}
-        Porcentaje: ${percentage}%
-        Respuestas correctas: ${correctCount}/${totalCount}
-        
-        -- PREGUNTAS INCORRECTAS --
-        ${resultsArr.filter((r: any) => !r.isCorrect).map((r: any) => `
-        #${r.questionNumber} ${r.questionText}
-        Tu respuesta: ${r.userAnswer?.toUpperCase?.()} - ${getOptionText(r, r.userAnswer)}
-        Correcta: ${r.correctAnswer?.toUpperCase?.()} - ${getOptionText(r, r.correctAnswer)}
-        `).join('\n')}
-      `
-
-      const emailData = {
-        service_id: 'service_nbju40d',
-        template_id: 'template_9dvik9e',
-        user_id: 'QIlZqn3_PidWSY9Mm',
-        template_params: {
-          to_email: 'christopherruiz@liceosannicolas.cl',
-          user_name: userName,
-          user_email: userEmail,
-          grade: gradeStr,
-          message: emailContent // Ensure EmailJS template has {{{message}}} 
+      const sendEmail = async (toEmail: string) => {
+        const payload = {
+          service_id: 'service_nbju40d',
+          template_id: 'template_9dvik9e',
+          user_id: 'QIlZqn3_PidWSY9Mm',
+          template_params: {
+            to_email: toEmail,
+            user_name: userName,
+            user_email: userEmail,
+            grade: gradeStr,
+            message: emailBody
+          }
         }
-      };
-
-      try {
-        const emailRes = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        return fetch('https://api.emailjs.com/api/v1.0/email/send', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(emailData)
+          body: JSON.stringify(payload)
         })
-        if (emailRes.ok) {
+      }
+
+      try {
+        const [profRes, studentRes] = await Promise.allSettled([
+          sendEmail('christopherruiz@liceosannicolas.cl'),
+          userEmail ? sendEmail(userEmail) : Promise.resolve(null)
+        ])
+        const profOk = profRes.status === 'fulfilled' && (profRes.value as Response)?.ok
+        if (profOk) {
           setEmailSent(true)
           toast.success('Resultados enviados por correo')
         } else {
-          console.error("EmailJS error", await emailRes.text())
-          toast.error('Revisa la consola: Faltan llaves de EmailJS en el c\u00f3digo.')
+          toast.error('No se pudo enviar el correo. Revisa la consola.')
+          console.error('Email prof result:', profRes)
+          console.error('Email student result:', studentRes)
         }
-      } catch (emailErr: any) {
+      } catch (emailErr) {
         console.error('Email error:', emailErr)
-        toast.error('Revisa la consola: Faltan llaves de EmailJS.')
+        toast.error('Error al enviar correo')
       } finally {
         setEmailSending(false)
       }
