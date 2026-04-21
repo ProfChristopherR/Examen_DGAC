@@ -97,6 +97,16 @@ export default function EvaluationQuiz() {
     return map?.[letter] ?? ''
   }
 
+  const fillRandomAnswers = () => {
+    const newAnswers: Record<string, string> = {}
+    questions.forEach(q => {
+      const options = ['a', 'b', 'c', 'd']
+      newAnswers[q.id] = options[Math.floor(Math.random() * options.length)]
+    })
+    setAnswers(newAnswers)
+    toast.info('Respuestas autocompletadas (aleatorio)')
+  }
+
   const handleSubmit = async () => {
     if (submitted) return
     const answeredCount = Object.keys(answers ?? {})?.length ?? 0
