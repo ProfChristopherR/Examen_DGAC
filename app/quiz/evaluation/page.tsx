@@ -74,7 +74,39 @@ export default function EvaluationQuiz() {
         [formatted[i], formatted[j]] = [formatted[j], formatted[i]]
       }
 
-      setQuestions(formatted.slice(0, 60))
+      const selected = formatted.slice(0, 60)
+      setQuestions(selected)
+      // Restore progress
+      const savedQuestions = localStorage.getItem('rpas_eval_questions')
+      const savedAnswers = localStorage.getItem('rpas_eval_answers')
+      const savedIndex = localStorage.getItem('rpas_eval_index')
+      const savedSubmitted = localStorage.getItem('rpas_eval_submitted')
+      const savedResults = localStorage.getItem('rpas_eval_results')
+      if (savedQuestions) {
+        try {
+          const parsed = JSON.parse(savedQuestions)
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setQuestions(parsed)
+          }
+        } catch {}
+      } else {
+        localStorage.setItem('rpas_eval_questions', JSON.stringify(selected))
+      }
+      if (savedAnswers) {
+        try { setAnswers(JSON.parse(savedAnswers)) } catch {}
+      }
+      if (savedIndex) {
+        try { setCurrentIndex(parseInt(savedIndex, 10)) } catch {}
+      }
+      if (savedSubmitted === 'true') {
+        setSubmitted(true)
+        if (savedResults) {
+          try {
+            setResults(JSON.parse(savedResults))
+            setShowResults(true)
+          } catch {}
+        }
+      }
     } catch (err: any) {
       console.error(err)
       toast.error('Error de conexión al cargar preguntas')
@@ -82,6 +114,14 @@ export default function EvaluationQuiz() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    localStorage.setItem('rpas_eval_answers', JSON.stringify(answers))
+  }, [answers])
+
+  useEffect(() => {
+    localStorage.setItem('rpas_eval_index', String(currentIndex))
+  }, [currentIndex])
 
   const selectAnswer = useCallback((questionId: string, answer: string) => {
     if (submitted) return
@@ -165,6 +205,8 @@ export default function EvaluationQuiz() {
       setResults(evalData)
       setShowResults(true)
       setSubmitted(true)
+      localStorage.setItem('rpas_eval_submitted', 'true')
+      localStorage.setItem('rpas_eval_results', JSON.stringify(evalData))
 
       // Build email body
       const incorrectList = resultsArr
@@ -204,6 +246,7 @@ export default function EvaluationQuiz() {
         const profOk = profRes.status === 'fulfilled' && (profRes.value as Response)?.ok
         if (profOk) {
           setEmailSent(true)
+          localStorage.setItem('rpas_eval_email_sent', 'true')
           toast.success('Resultados enviados por correo')
         } else {
           toast.error('No se pudo enviar el correo. Revisa la consola.')
@@ -223,6 +266,15 @@ export default function EvaluationQuiz() {
     } finally {
       setSubmitting(false)
     }
+  }
+
+  const clearEvalStorage = () => {
+    localStorage.removeItem('rpas_eval_questions')
+    localStorage.removeItem('rpas_eval_answers')
+    localStorage.removeItem('rpas_eval_index')
+    localStorage.removeItem('rpas_eval_submitted')
+    localStorage.removeItem('rpas_eval_results')
+    localStorage.removeItem('rpas_eval_email_sent')
   }
 
   if (loading) {
@@ -290,7 +342,7 @@ export default function EvaluationQuiz() {
             </div>
 
             <button
-              onClick={() => router.push('/mode-select')}
+              onClick={() => { clearEvalStorage(); router.push('/mode-select') }}
               className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium inline-flex items-center gap-2 hover:opacity-90 transition-opacity glow-primary"
             >
               <ArrowLeft className="w-4 h-4" strokeWidth={1.5} /> Volver al menú
@@ -358,6 +410,7 @@ export default function EvaluationQuiz() {
           <button
             onClick={() => {
               if (confirm('¿Seguro que deseas salir? Perderás tu progreso.')) {
+                clearEvalStorage()
                 router.push('/mode-select')
               }
             }}

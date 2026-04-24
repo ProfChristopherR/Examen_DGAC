@@ -65,6 +65,15 @@ export default function PracticeQuiz() {
         correctAnswer: q?.correctAnswer ?? ''
       }))
       setQuestions(formatted)
+      // Restore progress
+      const savedAnswers = localStorage.getItem('rpas_practice_answers')
+      const savedIndex = localStorage.getItem('rpas_practice_index')
+      if (savedAnswers) {
+        try { setAnswers(JSON.parse(savedAnswers)) } catch {}
+      }
+      if (savedIndex) {
+        try { setCurrentIndex(parseInt(savedIndex, 10)) } catch {}
+      }
     } catch (err: any) {
       console.error(err)
       toast.error('Error de conexión al cargar preguntas')
@@ -72,6 +81,14 @@ export default function PracticeQuiz() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    localStorage.setItem('rpas_practice_answers', JSON.stringify(answers))
+  }, [answers])
+
+  useEffect(() => {
+    localStorage.setItem('rpas_practice_index', String(currentIndex))
+  }, [currentIndex])
 
   const selectAnswer = useCallback((questionId: string, answer: string) => {
     setAnswers(prev => ({ ...(prev ?? {}), [questionId]: answer }))
@@ -124,6 +141,8 @@ export default function PracticeQuiz() {
         results: resultsArr
       })
       setShowResults(true)
+      localStorage.removeItem('rpas_practice_answers')
+      localStorage.removeItem('rpas_practice_index')
     } catch (err: any) {
       console.error(err)
       toast.error('Error al evaluar')
@@ -227,13 +246,13 @@ export default function PracticeQuiz() {
 
             <div className="flex gap-3 justify-center">
               <button
-                onClick={() => { setShowResults(false); setAnswers({}); setCurrentIndex(0); setResults(null); }}
+                onClick={() => { setShowResults(false); setAnswers({}); setCurrentIndex(0); setResults(null); localStorage.removeItem('rpas_practice_answers'); localStorage.removeItem('rpas_practice_index'); }}
                 className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium inline-flex items-center gap-2 hover:opacity-90 transition-opacity glow-primary"
               >
                 <RotateCcw className="w-4 h-4" strokeWidth={1.5} /> Repetir
               </button>
               <button
-                onClick={() => router.push('/mode-select')}
+                onClick={() => { localStorage.removeItem('rpas_practice_answers'); localStorage.removeItem('rpas_practice_index'); router.push('/mode-select') }}
                 className="bg-muted/70 text-foreground px-6 py-3 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-muted transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" strokeWidth={1.5} /> Volver
@@ -319,7 +338,7 @@ export default function PracticeQuiz() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <button
-            onClick={() => router.push('/mode-select')}
+            onClick={() => { localStorage.removeItem('rpas_practice_answers'); localStorage.removeItem('rpas_practice_index'); router.push('/mode-select') }}
             className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-muted/40"
           >
             <ArrowLeft className="w-4 h-4" strokeWidth={1.5} /> Salir
