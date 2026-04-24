@@ -25,7 +25,6 @@ export default function Home() {
     }
     setLoading(true)
     try {
-      // Simulate small delay for UX
       await new Promise(resolve => setTimeout(resolve, 500))
       const userId = 'user_' + Math.random().toString(36).substring(2, 9)
       localStorage.setItem('rpas_user_id', userId)
@@ -41,95 +40,135 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-xl">
+    <main className="min-h-screen aurora-bg flex items-center justify-center p-4 sm:p-6">
+      <div className="relative z-10 w-full max-w-xl">
         {step === 'welcome' ? (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="text-center"
           >
-            <div className="mx-auto w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
-              <Plane className="w-10 h-10 text-primary" />
-            </div>
-            <h1 className="font-display text-4xl font-bold tracking-tight text-foreground mb-3">
-              Examen <span className="text-primary">RPAS</span>
-            </h1>
-            <p className="text-muted-foreground text-lg mb-2">
-              Sistema de Práctica y Evaluación
-            </p>
-            <p className="text-muted-foreground text-sm mb-8 max-w-md mx-auto">
-              Prepárate para la obtención de tu credencial de piloto remoto RPAS según la normativa DGAC Chile.
-            </p>
+            {/* Orb icon */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="mx-auto w-24 h-24 mb-8 rounded-full glass flex items-center justify-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                <Plane className="w-8 h-8 text-primary" strokeWidth={1.5} />
+              </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display text-5xl sm:text-6xl font-black tracking-tighter text-foreground mb-4"
+            >
+              Examen <span className="text-gradient">RPAS</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="text-muted-foreground text-lg sm:text-xl font-light mb-2"
+            >
+              Sistema de Práctica y Evaluación
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="text-muted-foreground/70 text-sm sm:text-base mb-10 max-w-md mx-auto leading-relaxed"
+            >
+              Prepárate para la obtención de tu credencial de piloto remoto RPAS según la normativa DGAC Chile.
+            </motion.p>
+
+            {/* Feature cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10"
+            >
               <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-card rounded-xl p-5 text-left" style={{ boxShadow: 'var(--shadow-md)' }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="glass rounded-2xl p-6 text-left"
               >
-                <BookOpen className="w-8 h-8 text-blue-500 mb-3" />
-                <h3 className="font-semibold text-foreground mb-1">Modo Práctica</h3>
-                <p className="text-sm text-muted-foreground">79 preguntas con revisión detallada de respuestas correctas e incorrectas.</p>
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4">
+                  <BookOpen className="w-5 h-5 text-blue-500" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-semibold text-foreground mb-1 text-base">Modo Práctica</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">79 preguntas con revisión detallada de respuestas correctas e incorrectas.</p>
               </motion.div>
+
               <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-card rounded-xl p-5 text-left" style={{ boxShadow: 'var(--shadow-md)' }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="glass rounded-2xl p-6 text-left"
               >
-                <ClipboardCheck className="w-8 h-8 text-green-500 mb-3" />
-                <h3 className="font-semibold text-foreground mb-1">Modo Evaluación</h3>
-                <p className="text-sm text-muted-foreground">60 preguntas aleatorias, un solo intento. Resultados enviados por email.</p>
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4">
+                  <ClipboardCheck className="w-5 h-5 text-emerald-500" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-semibold text-foreground mb-1 text-base">Modo Evaluación</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">60 preguntas aleatorias, un solo intento. Resultados enviados por email.</p>
               </motion.div>
-            </div>
+            </motion.div>
 
             <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setStep('register')}
-              className="bg-primary text-primary-foreground px-8 py-3 rounded-xl font-semibold text-lg inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
+              className="bg-primary text-primary-foreground px-10 py-4 rounded-2xl font-semibold text-lg inline-flex items-center gap-3 glow-primary hover:opacity-90 transition-opacity"
             >
-              Comenzar <ArrowRight className="w-5 h-5" />
+              Comenzar <ArrowRight className="w-5 h-5" strokeWidth={2} />
             </motion.button>
           </motion.div>
         ) : (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-card rounded-2xl p-8" style={{ boxShadow: 'var(--shadow-lg)' }}
+            initial={{ opacity: 0, y: 30, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="glass rounded-3xl p-8 sm:p-10"
           >
-            <div className="text-center mb-6">
-              <div className="mx-auto w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
-                <User className="w-7 h-7 text-primary" />
+            <div className="text-center mb-8">
+              <div className="mx-auto w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                <User className="w-7 h-7 text-primary" strokeWidth={1.5} />
               </div>
-              <h2 className="font-display text-2xl font-bold tracking-tight text-foreground">Registro</h2>
-              <p className="text-muted-foreground text-sm mt-1">Ingresa tus datos para comenzar</p>
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Registro</h2>
+              <p className="text-muted-foreground text-sm mt-2">Ingresa tus datos para comenzar</p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Nombre completo</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Nombre completo</label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
                   <input
                     type="text"
                     value={name}
                     onChange={(e: any) => setName(e?.target?.value ?? '')}
                     placeholder="Ej: Juan Pérez"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full pl-11 pr-4 py-3 rounded-xl border border-input bg-background/60 backdrop-blur-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Correo electrónico</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Correo electrónico</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
                   <input
                     type="email"
                     value={email}
                     onChange={(e: any) => setEmail(e?.target?.value ?? '')}
                     placeholder="Ej: juan@email.com"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full pl-11 pr-4 py-3 rounded-xl border border-input bg-background/60 backdrop-blur-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                   />
                 </div>
               </div>
@@ -139,7 +178,7 @@ export default function Home() {
                 whileTap={{ scale: 0.97 }}
                 onClick={handleRegister}
                 disabled={loading}
-                className="w-full bg-primary text-primary-foreground py-3 rounded-xl font-semibold text-base flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="w-full bg-primary text-primary-foreground py-3.5 rounded-xl font-semibold text-base flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50 glow-primary"
               >
                 {loading ? 'Registrando...' : 'Continuar'}
                 {!loading && <ArrowRight className="w-5 h-5" />}

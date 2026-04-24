@@ -50,7 +50,7 @@ export default function EvaluationQuiz() {
       return
     }
     fetchQuestions()
-  }, [])
+  }, [router])
 
   const fetchQuestions = async () => {
     try {
@@ -217,6 +217,7 @@ export default function EvaluationQuiz() {
         setEmailSending(false)
       }
     } catch (err: any) {
+      hasSubmittedRef.current = false
       console.error(err)
       toast.error('Error al evaluar')
     } finally {
@@ -226,9 +227,9 @@ export default function EvaluationQuiz() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+      <main className="min-h-screen aurora-bg flex items-center justify-center">
+        <div className="relative z-10 text-center">
+          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-muted-foreground">Preparando evaluación...</p>
         </div>
       </main>
@@ -242,78 +243,76 @@ export default function EvaluationQuiz() {
     const incorrectResults = (results?.results ?? []).filter((r: ResultItem) => !r?.isCorrect)
 
     return (
-      <main className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 p-4">
-        <div className="max-w-3xl mx-auto">
+      <main className="min-h-screen aurora-bg p-4 sm:p-6">
+        <div className="relative z-10 max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-card rounded-2xl p-8 mb-6 text-center"
-            style={{ boxShadow: 'var(--shadow-lg)' }}
+            className="glass rounded-3xl p-8 sm:p-10 mb-6 text-center"
           >
-            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${approved ? 'bg-green-100' : 'bg-red-100'}`}>
-              {approved ? <Trophy className="w-8 h-8 text-green-600" /> : <AlertCircle className="w-8 h-8 text-red-600" />}
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 ${approved ? 'bg-emerald-100' : 'bg-red-100'}`}>
+              {approved ? <Trophy className="w-8 h-8 text-emerald-600" strokeWidth={1.5} /> : <AlertCircle className="w-8 h-8 text-red-600" strokeWidth={1.5} />}
             </div>
-            <h1 className="font-display text-3xl font-bold tracking-tight mb-1">
+            <h1 className="font-display text-3xl sm:text-4xl font-black tracking-tighter mb-1">
               {approved ? '¡Aprobado!' : 'No aprobado'}
             </h1>
-            <p className="text-muted-foreground mb-6">Resultado de tu evaluación RPAS</p>
+            <p className="text-muted-foreground mb-8">Resultado de tu evaluación RPAS</p>
 
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="bg-muted/50 rounded-xl p-4">
-                <p className="text-2xl font-bold font-mono text-foreground">{results?.correctCount ?? 0}/{results?.totalQuestions ?? 0}</p>
-                <p className="text-xs text-muted-foreground mt-1">Correctas</p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="bg-muted/40 rounded-2xl p-4 sm:p-5">
+                <p className="text-2xl sm:text-3xl font-bold font-mono text-foreground">{results?.correctCount ?? 0}/{results?.totalQuestions ?? 0}</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-widest">Correctas</p>
               </div>
-              <div className="bg-muted/50 rounded-xl p-4">
-                <p className="text-2xl font-bold font-mono text-foreground">{percentage}%</p>
-                <p className="text-xs text-muted-foreground mt-1">Porcentaje</p>
+              <div className="bg-muted/40 rounded-2xl p-4 sm:p-5">
+                <p className="text-2xl sm:text-3xl font-bold font-mono text-foreground">{percentage}%</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-widest">Porcentaje</p>
               </div>
-              <div className={`rounded-xl p-4 ${approved ? 'bg-green-50' : 'bg-red-50'}`}>
-                <p className={`text-2xl font-bold font-mono ${approved ? 'text-green-600' : 'text-red-600'}`}>{grade}</p>
-                <p className="text-xs text-muted-foreground mt-1">Nota</p>
+              <div className={`rounded-2xl p-4 sm:p-5 ${approved ? 'bg-emerald-50/70' : 'bg-red-50/70'}`}>
+                <p className={`text-2xl sm:text-3xl font-bold font-mono ${approved ? 'text-emerald-600' : 'text-red-600'}`}>{grade}</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-widest">Nota</p>
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="flex items-center justify-center gap-2 mb-8">
               {emailSending ? (
                 <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="w-4 h-4 animate-spin" /> Enviando resultados por correo...
+                  <Loader2 className="w-4 h-4 animate-spin" strokeWidth={1.5} /> Enviando resultados por correo...
                 </span>
               ) : emailSent ? (
-                <span className="inline-flex items-center gap-2 text-sm text-green-600">
-                  <Mail className="w-4 h-4" /> Resultados enviados a christopherruiz@liceosannicolas.cl
+                <span className="inline-flex items-center gap-2 text-sm text-emerald-600">
+                  <Mail className="w-4 h-4" strokeWidth={1.5} /> Resultados enviados a christopherruiz@liceosannicolas.cl
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-                  <Mail className="w-4 h-4" /> Pendiente de envío
+                  <Mail className="w-4 h-4" strokeWidth={1.5} /> Pendiente de envío
                 </span>
               )}
             </div>
 
             <button
               onClick={() => router.push('/mode-select')}
-              className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-medium inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
+              className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium inline-flex items-center gap-2 hover:opacity-90 transition-opacity glow-primary"
             >
-              <ArrowLeft className="w-4 h-4" /> Volver al menú
+              <ArrowLeft className="w-4 h-4" strokeWidth={1.5} /> Volver al menú
             </button>
           </motion.div>
 
           {/* Show incorrect answers */}
           {(incorrectResults?.length ?? 0) > 0 && (
             <div>
-              <h3 className="font-display text-lg font-bold text-foreground mb-3">
+              <h3 className="font-display text-lg font-bold text-foreground mb-4">
                 Preguntas incorrectas ({incorrectResults?.length ?? 0})
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {(incorrectResults ?? []).map((result: ResultItem, idx: number) => (
                   <motion.div
                     key={result?.questionId ?? idx}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: Math.min(idx * 0.05, 0.5) }}
-                    className="bg-card rounded-xl p-5 border-l-4 border-l-red-500"
-                    style={{ boxShadow: 'var(--shadow-sm)' }}
+                    className="glass rounded-2xl p-5 sm:p-6 border-l-4 border-l-red-500"
                   >
-                    <p className="text-sm font-medium text-foreground mb-3">
+                    <p className="text-sm font-medium text-foreground mb-3 leading-relaxed">
                       <span className="text-muted-foreground">#{result?.questionNumber ?? 0}</span>{' '}
                       {result?.questionText ?? ''}
                     </p>
@@ -321,16 +320,16 @@ export default function EvaluationQuiz() {
                       {['a', 'b', 'c', 'd'].map((letter: string) => {
                         const isUser = result?.userAnswer === letter
                         const isCorrectAnswer = result?.correctAnswer === letter
-                        let classes = 'text-sm px-3 py-1.5 rounded-md '
-                        if (isCorrectAnswer) classes += 'bg-green-50 text-green-800 font-medium '
-                        else if (isUser) classes += 'bg-red-50 text-red-800 line-through '
+                        let classes = 'text-sm px-3 py-1.5 rounded-lg '
+                        if (isCorrectAnswer) classes += 'bg-emerald-50/70 text-emerald-800 font-medium '
+                        else if (isUser) classes += 'bg-red-50/70 text-red-800 line-through '
                         else classes += 'text-muted-foreground '
 
                         return (
                           <div key={letter} className={classes}>
-                            <span className="font-mono font-bold mr-2">{letter?.toUpperCase?.() ?? ''})  </span>
+                            <span className="font-mono font-bold mr-2">{letter?.toUpperCase?.() ?? ''})</span>
                             {getOptionText(result, letter)}
-                            {isCorrectAnswer && <span className="ml-2 text-green-600">✓</span>}
+                            {isCorrectAnswer && <span className="ml-2 text-emerald-600">✓</span>}
                             {isUser && !isCorrectAnswer && <span className="ml-2 text-red-500">(tu respuesta)</span>}
                           </div>
                         )
@@ -352,19 +351,19 @@ export default function EvaluationQuiz() {
   const progress = totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 p-4">
-      <div className="max-w-3xl mx-auto">
+    <main className="min-h-screen aurora-bg p-4 sm:p-6">
+      <div className="relative z-10 max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <button
             onClick={() => {
-              if (confirm('\u00bfSeguro que deseas salir? Perder\u00e1s tu progreso.')) {
+              if (confirm('¿Seguro que deseas salir? Perderás tu progreso.')) {
                 router.push('/mode-select')
               }
             }}
-            className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-sm transition-colors"
+            className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-muted/40"
           >
-            <ArrowLeft className="w-4 h-4" /> Salir
+            <ArrowLeft className="w-4 h-4" strokeWidth={1.5} /> Salir
           </button>
           <div className="flex items-center gap-2">
             <button 
@@ -373,19 +372,19 @@ export default function EvaluationQuiz() {
             >
               Test Button
             </button>
-            <ClipboardCheck className="w-4 h-4 text-green-500" />
+            <ClipboardCheck className="w-4 h-4 text-emerald-500" strokeWidth={1.5} />
             <span className="text-sm font-medium text-foreground">Evaluación</span>
           </div>
-          <span className="text-sm text-muted-foreground">{answeredCount}/{totalQuestions}</span>
+          <span className="text-sm text-muted-foreground font-mono">{answeredCount}/{totalQuestions}</span>
         </div>
 
         {/* Progress bar */}
-        <div className="w-full bg-muted rounded-full h-2 mb-6">
+        <div className="w-full bg-muted/50 rounded-full h-1.5 mb-8 overflow-hidden">
           <motion.div
-            className="bg-green-500 h-2 rounded-full"
+            className="bg-emerald-500 h-1.5 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           />
         </div>
 
@@ -397,21 +396,20 @@ export default function EvaluationQuiz() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.25 }}
-              className="bg-card rounded-2xl p-6 mb-6"
-              style={{ boxShadow: 'var(--shadow-md)' }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="glass rounded-3xl p-6 sm:p-8 mb-8"
             >
-              <div className="flex items-center gap-2 mb-4">
-                <span className="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full">
+              <div className="flex items-center gap-2 mb-5">
+                <span className="bg-emerald-100/70 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">
                   Pregunta {currentIndex + 1} de {totalQuestions}
                 </span>
               </div>
 
-              <p className="text-base font-medium text-foreground mb-5">
+              <p className="text-base sm:text-lg font-medium text-foreground mb-6 leading-relaxed">
                 {currentQuestion?.questionText ?? ''}
               </p>
 
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {(['a', 'b', 'c', 'd'] as const).map((letter: string) => {
                   const optionKey = `option${letter?.toUpperCase?.()}` as 'optionA' | 'optionB' | 'optionC' | 'optionD'
                   const optionText = (currentQuestion as any)?.[optionKey] ?? ''
@@ -423,18 +421,18 @@ export default function EvaluationQuiz() {
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
                       onClick={() => selectAnswer(currentQuestion?.id ?? '', letter)}
-                      className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-all flex items-start gap-3 ${
+                      className={`w-full text-left px-5 py-3.5 rounded-xl border-2 transition-all flex items-start gap-3 ${
                         isSelected
-                          ? 'border-green-500 bg-green-50'
-                          : 'border-transparent bg-muted/50 hover:bg-muted'
+                          ? 'border-emerald-500 bg-emerald-50/40'
+                          : 'border-transparent bg-muted/40 hover:bg-muted/70'
                       }`}
                     >
                       <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 ${
-                        isSelected ? 'bg-green-500 text-white' : 'bg-background text-muted-foreground border border-border'
+                        isSelected ? 'bg-emerald-500 text-white' : 'bg-background text-muted-foreground border border-border'
                       }`}>
                         {letter?.toUpperCase?.() ?? ''}
                       </span>
-                      <span className={`text-sm ${isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
+                      <span className={`text-sm sm:text-base ${isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
                         {optionText}
                       </span>
                     </motion.button>
@@ -450,42 +448,42 @@ export default function EvaluationQuiz() {
           <button
             onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
             disabled={currentIndex === 0}
-            className="bg-muted text-foreground px-4 py-2.5 rounded-lg font-medium inline-flex items-center gap-1.5 hover:bg-muted/80 transition-colors disabled:opacity-40"
+            className="bg-muted/50 text-foreground px-4 py-2.5 rounded-xl font-medium inline-flex items-center gap-1.5 hover:bg-muted/80 transition-colors disabled:opacity-40"
           >
-            <ChevronLeft className="w-4 h-4" /> Anterior
+            <ChevronLeft className="w-4 h-4" strokeWidth={1.5} /> Anterior
           </button>
 
           {currentIndex === totalQuestions - 1 ? (
             <button
               onClick={handleSubmit}
               disabled={submitting}
-              className="bg-green-600 text-white px-6 py-2.5 rounded-lg font-medium inline-flex items-center gap-2 hover:bg-green-700 transition-colors disabled:opacity-50"
+              className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-emerald-700 transition-colors disabled:opacity-50 shadow-lg shadow-emerald-500/20"
             >
               {submitting ? 'Enviando...' : 'Finalizar Evaluación'}
-              {!submitting && <Send className="w-4 h-4" />}
+              {!submitting && <Send className="w-4 h-4" strokeWidth={1.5} />}
             </button>
           ) : (
             <button
               onClick={() => setCurrentIndex(Math.min(totalQuestions - 1, currentIndex + 1))}
-              className="bg-green-600 text-white px-4 py-2.5 rounded-lg font-medium inline-flex items-center gap-1.5 hover:bg-green-700 transition-colors"
+              className="bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-medium inline-flex items-center gap-1.5 hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-500/20"
             >
-              Siguiente <ChevronRight className="w-4 h-4" />
+              Siguiente <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
             </button>
           )}
         </div>
 
         {/* Question dots */}
-        <div className="mt-6 flex flex-wrap gap-1.5 justify-center">
+        <div className="mt-8 flex flex-wrap gap-1.5 justify-center">
           {(questions ?? []).map((q: Question, idx: number) => (
             <button
               key={q?.id ?? idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`w-7 h-7 rounded-md text-xs font-mono font-bold transition-all ${
+              className={`w-8 h-8 rounded-lg text-xs font-mono font-bold transition-all ${
                 idx === currentIndex
-                  ? 'bg-green-600 text-white scale-110'
+                  ? 'bg-emerald-600 text-white scale-110 shadow-sm'
                   : answers?.[q?.id ?? ''] 
-                    ? 'bg-green-200 text-green-700'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                    ? 'bg-emerald-200/60 text-emerald-700'
+                    : 'bg-muted/40 text-muted-foreground hover:bg-muted/70'
               }`}
             >
               {idx + 1}
