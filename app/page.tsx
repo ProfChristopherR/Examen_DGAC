@@ -353,7 +353,6 @@ export default function Home() {
                       <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" strokeWidth={2} />
                       <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </motion.button>
-                    <p className="text-xs text-slate-500">Gratuito • Sin registro complejo</p>
                   </motion.div>
                 </div>
 

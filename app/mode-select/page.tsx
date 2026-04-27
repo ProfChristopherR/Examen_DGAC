@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { BookOpen, ClipboardCheck, Plane, ArrowLeft, History, Trash2, Trophy, AlertCircle, User, ChevronRight, RotateCcw, Crown } from 'lucide-react'
+import { BookOpen, ClipboardCheck, Plane, ArrowLeft, History, Trash2, Trophy, AlertCircle, User, ChevronRight, RotateCcw, Crown, FlaskConical } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { getSupabase, signOut, getAttempts, deleteAttempt, getLeaderboard } from '@/lib/supabase'
@@ -150,12 +150,12 @@ export default function ModeSelect() {
           <p className="text-slate-400 text-lg font-light mt-3">Selecciona el modo de estudio</p>
           {user?.provider === 'local' && (
             <p className="text-xs text-amber-400/80 mt-2">
-              Modo invitado — Inicia sesión con Google para guardar historial y enviar evaluaciones
+              Modo invitado — Inicia sesión con Google para guardar historial, ensayos y enviar evaluaciones
             </p>
           )}
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+        <div className={`grid gap-5 mb-6 ${user?.provider === 'google' ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2'}`}>
           <motion.button initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ y: -6, transition: { duration: 0.2 } }} whileTap={{ scale: 0.97 }}
             onClick={() => router.push('/quiz/practice')}
@@ -170,21 +170,31 @@ export default function ModeSelect() {
             </div>
           </motion.button>
 
+          <motion.button initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -6, transition: { duration: 0.2 } }} whileTap={{ scale: 0.97 }}
+            onClick={() => router.push('/quiz/practice-evaluation')}
+            className="rounded-2xl p-8 text-left transition-all hover:ring-1 hover:ring-violet-400/30 bg-white/[0.02] border border-white/[0.06] backdrop-blur-xl">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500/15 to-violet-500/5 flex items-center justify-center mb-6">
+              <FlaskConical className="w-7 h-7 text-violet-400" strokeWidth={1.5} />
+            </div>
+            <h2 className="font-display text-xl font-bold text-white mb-2">Modo Ensayo</h2>
+            <p className="text-slate-400 text-sm leading-relaxed mb-5">Simulacro con 60 preguntas aleatorias. Practica el formato de evaluación sin enviar resultados por correo.</p>
+            <div className="flex items-center gap-2 text-violet-400 font-medium text-sm">
+              <span>60 preguntas</span><span className="text-slate-600">•</span><span>Sin envío de email</span>
+            </div>
+          </motion.button>
+
           <motion.button initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ y: -6, transition: { duration: 0.2 } }} whileTap={{ scale: 0.97 }}
             onClick={() => router.push('/quiz/evaluation')}
-            className="rounded-2xl p-8 text-left transition-all hover:ring-1 hover:ring-emerald-400/30 bg-white/[0.02] border border-white/[0.06] backdrop-blur-xl">
+            className={`rounded-2xl p-8 text-left transition-all hover:ring-1 hover:ring-emerald-400/30 bg-white/[0.02] border border-white/[0.06] backdrop-blur-xl ${user?.provider === 'local' ? 'hidden' : ''}`}>
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 flex items-center justify-center mb-6">
               <ClipboardCheck className="w-7 h-7 text-emerald-400" strokeWidth={1.5} />
             </div>
             <h2 className="font-display text-xl font-bold text-white mb-2">Modo Evaluación</h2>
-            <p className="text-slate-400 text-sm leading-relaxed mb-5">
-              {user?.provider === 'google' 
-                ? 'Simulacro real con 60 preguntas aleatorias. Un solo intento. Resultados enviados por correo.'
-                : 'Simulacro real con 60 preguntas aleatorias. Inicia sesión con Google para enviar resultados.'}
-            </p>
+            <p className="text-slate-400 text-sm leading-relaxed mb-5">Simulacro real con 60 preguntas aleatorias. Un solo intento. Resultados enviados automáticamente al profesor.</p>
             <div className="flex items-center gap-2 text-emerald-400 font-medium text-sm">
-              <span>60 preguntas</span><span className="text-slate-600">•</span><span>Un intento</span>
+              <span>60 preguntas</span><span className="text-slate-600">•</span><span>Envía calificación</span>
             </div>
           </motion.button>
         </div>
@@ -230,11 +240,11 @@ export default function ModeSelect() {
                         <motion.div key={h.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.03 }}
                           className={`flex items-center justify-between p-3 rounded-xl border ${h.type === 'evaluation' ? 'border-emerald-500/10 bg-emerald-500/5' : 'border-cyan-500/10 bg-cyan-500/5'}`}>
                           <div className="flex items-center gap-3">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${h.type === 'evaluation' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-cyan-500/10 text-cyan-400'}`}>
-                              {h.type === 'evaluation' ? <ClipboardCheck className="w-4 h-4" /> : <BookOpen className="w-4 h-4" />}
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${h.type === 'evaluation' ? 'bg-emerald-500/10 text-emerald-400' : h.type === 'practice' ? 'bg-violet-500/10 text-violet-400' : 'bg-cyan-500/10 text-cyan-400'}`}>
+                              {h.type === 'evaluation' ? <ClipboardCheck className="w-4 h-4" /> : h.type === 'practice' ? <FlaskConical className="w-4 h-4" /> : <BookOpen className="w-4 h-4" />}
                             </div>
                             <div>
-                              <p className="text-sm text-slate-200 font-medium">{h.type === 'evaluation' ? 'Evaluación' : 'Práctica'} — {h.percentage}%</p>
+                              <p className="text-sm text-slate-200 font-medium">{h.type === 'evaluation' ? 'Evaluación' : h.type === 'practice' ? 'Ensayo' : 'Práctica'} — {h.percentage}%</p>
                               <p className="text-[10px] text-slate-500">{formatDate(h.created_at)}</p>
                             </div>
                           </div>
