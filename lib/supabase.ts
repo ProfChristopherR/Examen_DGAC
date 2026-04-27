@@ -1,14 +1,32 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://juhhfjgymwqtzwghrltf.supabase.co'
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_PgWj2IXdZUDtYIGjh2XWrg_VKNS_eJ6'
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+/* ─── Lazy client (safe for SSR/static build) ─── */
+let supabaseInstance: SupabaseClient | null = null
+
+export function getSupabase(): SupabaseClient {
+  if (typeof window === 'undefined') {
+    // During SSR/static build, return a dummy client that won't be used
+    return createClient(supabaseUrl, supabaseAnonKey, {
+      auth: { autoRefreshToken: false, persistSession: false }
+    })
+  }
+  if (!supabaseInstance) {
+    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey)
+  }
+  return supabaseInstance
+}
+
+// Backward-compatible export for client-side only
+export const supabase = getSupabase()
 
 /* ─── Auth helpers ─── */
 
 export async function signInWithGoogle() {
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const client = getSupabase()
+  const { data, error } = await client.auth.signInWithOAuth({
     provider: 'google',
     options: {
       redirectTo: typeof window !== 'undefined'
@@ -20,17 +38,20 @@ export async function signInWithGoogle() {
 }
 
 export async function signOut() {
-  const { error } = await supabase.auth.signOut()
+  const client = getSupabase()
+  const { error } = await client.auth.signOut()
   return { error }
 }
 
 export async function getCurrentUser() {
-  const { data: { user } } = await supabase.auth.getUser()
+  const client = getSupabase()
+  const { data: { user } } = await client.auth.getUser()
   return user
 }
 
 export async function getSession() {
-  const { data: { session } } = await supabase.auth.getSession()
+  const client = getSupabase()
+  const { data: { session } } = await client.auth.getSession()
   return session
 }
 
@@ -59,7 +80,8 @@ export interface Profile {
 /* ─── Database helpers ─── */
 
 export async function upsertProfile(userId: string, profile: Partial<Profile>) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  const { data, error } = await client
     .from('profiles')
     .upsert({ id: userId, ...profile }, { onConflict: 'id' })
     .select()
@@ -68,7 +90,8 @@ export async function upsertProfile(userId: string, profile: Partial<Profile>) {
 }
 
 export async function getProfile(userId: string) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  const { data, error } = await client
     .from('profiles')
     .select('*')
     .eq('id', userId)
@@ -77,7 +100,8 @@ export async function getProfile(userId: string) {
 }
 
 export async function saveAttempt(attempt: Omit<Attempt, 'id' | 'created_at'>) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  const { data, error } = await client
     .from('attempts')
     .insert(attempt)
     .select()
@@ -86,7 +110,8 @@ export async function saveAttempt(attempt: Omit<Attempt, 'id' | 'created_at'>) {
 }
 
 export async function getAttempts(userId: string) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  const { data, error } = await client
     .from('attempts')
     .select('*')
     .eq('user_id', userId)
@@ -95,7 +120,8 @@ export async function getAttempts(userId: string) {
 }
 
 export async function deleteAttempt(attemptId: string) {
-  const { error } = await supabase
+  const client = getSupabase()
+  const { error } = await client
     .from('attempts')
     .delete()
     .eq('id', attemptId)
@@ -103,7 +129,8 @@ export async function deleteAttempt(attemptId: string) {
 }
 
 export async function getLeaderboard(limit = 20) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  const { data, error } = await client
     .from('attempts')
     .select('*, profiles(name, avatar_url)')
     .eq('type', 'evaluation')

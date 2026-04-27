@@ -5,7 +5,7 @@ import { motion, useMotionTemplate, useMotionValue, AnimatePresence } from 'fram
 import { BookOpen, ClipboardCheck, ArrowRight, User, Mail, Shield, Zap, Globe, ChevronRight, Download, Upload } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { supabase, signInWithGoogle, getSession } from '@/lib/supabase'
+import { getSupabase, signInWithGoogle, getSession } from '@/lib/supabase'
 import { exportData, importData } from '@/lib/storage'
 
 /* ─── Animated Drone SVG Component ─── */
@@ -259,7 +259,8 @@ export default function Home() {
     }
     setLoading(true)
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const client = getSupabase()
+      const { data, error } = await client.auth.signUp({
         email: email.trim(),
         password: Math.random().toString(36).substring(2, 15),
         options: {
@@ -269,7 +270,7 @@ export default function Home() {
       if (error) {
         // If user already exists, try sign in with magic link
         if (error.message.includes('already registered')) {
-          const { error: signInError } = await supabase.auth.signInWithOtp({
+          const { error: signInError } = await client.auth.signInWithOtp({
             email: email.trim(),
             options: { data: { name: name.trim() } }
           })

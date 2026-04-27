@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, ClipboardCheck, Plane, ArrowLeft, History, Trash2, Download, Upload, Trophy, AlertCircle, User, ChevronRight, RotateCcw, Crown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { supabase, signOut, getCurrentUser, getAttempts, deleteAttempt, getLeaderboard } from '@/lib/supabase'
+import { getSupabase, signOut, getCurrentUser, getAttempts, deleteAttempt, getLeaderboard } from '@/lib/supabase'
 import type { Attempt } from '@/lib/supabase'
 import { exportData, importData, loadPracticeProgress, clearEvalStorage } from '@/lib/storage'
 
@@ -34,7 +34,8 @@ export default function ModeSelect() {
     setUser(currentUser)
 
     // Get or create profile
-    const { data: existingProfile } = await supabase
+    const client = getSupabase()
+    const { data: existingProfile } = await client
       .from('profiles')
       .select('*')
       .eq('id', currentUser.id)
@@ -45,7 +46,7 @@ export default function ModeSelect() {
     } else {
       const name = currentUser.user_metadata?.name || currentUser.user_metadata?.full_name || 'Piloto'
       const avatar = currentUser.user_metadata?.avatar_url || currentUser.user_metadata?.picture || null
-      const { data: newProfile } = await supabase
+      const { data: newProfile } = await client
         .from('profiles')
         .upsert({
           id: currentUser.id,

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ClipboardCheck, ChevronLeft, ChevronRight, Check, X, ArrowLeft, Send, Trophy, AlertCircle, Mail, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { getCurrentUser, saveAttempt } from '@/lib/supabase'
+import { getCurrentUser, getSupabase } from '@/lib/supabase'
 import { clearEvalStorage } from '@/lib/storage'
 import { splitQuestionLines } from '@/lib/format-question'
 
@@ -233,7 +233,10 @@ export default function EvaluationQuiz() {
 
       // Save to Supabase
       if (user) {
-        const { error } = await saveAttempt({
+        const client = getSupabase()
+        const { error } = await client
+          .from('attempts')
+          .insert({
           user_id: user.id,
           type: 'evaluation',
           score: correctCount,

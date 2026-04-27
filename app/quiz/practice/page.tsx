@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, ChevronLeft, ChevronRight, Check, X, ArrowLeft, Send, RotateCcw, Trophy, AlertCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { getCurrentUser, saveAttempt } from '@/lib/supabase'
+import { getCurrentUser, saveAttempt, getSupabase } from '@/lib/supabase'
 import { savePracticeProgress, loadPracticeProgress, clearPracticeProgress } from '@/lib/storage'
 import { splitQuestionLines } from '@/lib/format-question'
 
@@ -163,7 +163,10 @@ export default function PracticeQuiz() {
 
       // Save to Supabase
       if (user) {
-        const { error } = await saveAttempt({
+        const client = getSupabase()
+        const { error } = await client
+          .from('attempts')
+          .insert({
           user_id: user.id,
           type: 'practice',
           score: correctCount,
@@ -215,7 +218,10 @@ export default function PracticeQuiz() {
     clearPracticeProgress()
 
     if (user) {
-      saveAttempt({
+      const client = getSupabase()
+      client
+        .from('attempts')
+        .insert({
         user_id: user.id,
         type: 'practice',
         score: totalCount,
