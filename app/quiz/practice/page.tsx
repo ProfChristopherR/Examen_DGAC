@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, ChevronLeft, ChevronRight, Check, X, ArrowLeft, Send, RotateCcw, Trophy, AlertCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { getCurrentUser, saveAttempt, getSupabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { savePracticeProgress, loadPracticeProgress, clearPracticeProgress } from '@/lib/storage'
 import { splitQuestionLines } from '@/lib/format-question'
 
@@ -64,12 +64,22 @@ export default function PracticeQuiz() {
   }, [])
 
   const checkAuth = async () => {
-    const currentUser = await getCurrentUser()
-    if (!currentUser) {
+    const localId = localStorage.getItem('rpas_user_id')
+    const localName = localStorage.getItem('rpas_user_name')
+    const localEmail = localStorage.getItem('rpas_user_email')
+    const localProvider = localStorage.getItem('rpas_auth_provider')
+    
+    if (!localId || !localName) {
       router.replace('/')
       return
     }
-    setUser(currentUser)
+    
+    setUser({
+      id: localId,
+      name: localName,
+      email: localEmail || '',
+      provider: localProvider || 'local',
+    })
     fetchQuestions()
   }
 
@@ -161,22 +171,21 @@ export default function PracticeQuiz() {
       setShowResults(true)
       clearPracticeProgress()
 
-      // Save to Supabase
-      if (user) {
-        const client = getSupabase()
-        const { error } = await client
-          .from('attempts')
-          .insert({
-          user_id: user.id,
-          type: 'practice',
-          score: correctCount,
-          total: totalCount,
-          percentage,
-          grade: gradeStr,
-          answers,
-        })
-        if (error) {
-          console.error('Error saving attempt:', error)
+      // Save to Supabase (only for Google users)
+      if (user?.provider === 'google') {
+        try {
+          const client = getSupabase()
+          await client.from('attempts').insert({
+            user_id: user.id,
+            type: 'practice',
+            score: correctCount,
+            total: totalCount,
+            percentage,
+            grade: gradeStr,
+            answers,
+          })
+        } catch (err) {
+          console.error('Error saving attempt:', err)
         }
       }
     } catch (err: any) {

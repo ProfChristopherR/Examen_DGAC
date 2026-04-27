@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ClipboardCheck, ChevronLeft, ChevronRight, Check, X, ArrowLeft, Send, Trophy, AlertCircle, Mail, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { getCurrentUser, getSupabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { clearEvalStorage } from '@/lib/storage'
 import { splitQuestionLines } from '@/lib/format-question'
 
@@ -66,12 +66,22 @@ export default function EvaluationQuiz() {
   }, [])
 
   const checkAuth = async () => {
-    const currentUser = await getCurrentUser()
-    if (!currentUser) {
+    const localId = localStorage.getItem('rpas_user_id')
+    const localName = localStorage.getItem('rpas_user_name')
+    const localEmail = localStorage.getItem('rpas_user_email')
+    const localProvider = localStorage.getItem('rpas_auth_provider')
+    
+    if (!localId || !localName) {
       router.replace('/')
       return
     }
-    setUser(currentUser)
+    
+    setUser({
+      id: localId,
+      name: localName,
+      email: localEmail || '',
+      provider: localProvider || 'local',
+    })
     fetchQuestions()
   }
 
@@ -185,7 +195,7 @@ export default function EvaluationQuiz() {
 
     setSubmitting(true)
     try {
-      const userName = user?.user_metadata?.name || user?.user_metadata?.full_name || 'Usuario'
+      const userName = user?.name || 'Usuario'
       const userEmail = user?.email || ''
 
       await new Promise(resolve => setTimeout(resolve, 600))
@@ -231,22 +241,21 @@ export default function EvaluationQuiz() {
       localStorage.setItem('rpas_eval_submitted', 'true')
       localStorage.setItem('rpas_eval_results', JSON.stringify(evalData))
 
-      // Save to Supabase
-      if (user) {
-        const client = getSupabase()
-        const { error } = await client
-          .from('attempts')
-          .insert({
-          user_id: user.id,
-          type: 'evaluation',
-          score: correctCount,
-          total: totalCount,
-          percentage,
-          grade: gradeStr,
-          answers,
-        })
-        if (error) {
-          console.error('Error saving attempt:', error)
+      // Save to Supabase (only for Google users)
+      if (user?.provider === 'google') {
+        try {
+          const client = getSupabase()
+          await client.from('attempts').insert({
+            user_id: user.id,
+            type: 'evaluation',
+            score: correctCount,
+            total: totalCount,
+            percentage,
+            grade: gradeStr,
+            answers,
+          })
+        } catch (err) {
+          console.error('Error saving attempt:', err)
         }
       }
 
