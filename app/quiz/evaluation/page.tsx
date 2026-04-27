@@ -451,6 +451,16 @@ export default function EvaluationQuiz() {
   return (
     <main className="min-h-screen bg-[#050508] p-4 sm:p-6">
       <div className="relative z-10 max-w-3xl mx-auto">
+        {/* Guest warning */}
+        {user?.provider === 'local' && (
+          <div className="mb-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-center">
+            <p className="text-sm text-amber-300">
+              Modo invitado — Puedes practicar pero no enviar evaluaciones.{' '}
+              <button onClick={() => router.push('/')} className="underline hover:text-amber-200">Inicia sesión con Google</button>
+            </p>
+          </div>
+        )}
+
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <button
@@ -551,14 +561,23 @@ export default function EvaluationQuiz() {
           </button>
 
           {currentIndex === totalQuestions - 1 ? (
-            <button
-              onClick={handleSubmit}
-              disabled={submitting}
-              className="bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-emerald-400 transition-colors disabled:opacity-50 shadow-lg shadow-emerald-500/20"
-            >
-              {submitting ? 'Enviando...' : 'Finalizar Evaluación'}
-              {!submitting && <Send className="w-4 h-4" strokeWidth={1.5} />}
-            </button>
+            user?.provider === 'google' ? (
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-emerald-400 transition-colors disabled:opacity-50 shadow-lg shadow-emerald-500/20"
+              >
+                {submitting ? 'Enviando...' : 'Finalizar Evaluación'}
+                {!submitting && <Send className="w-4 h-4" strokeWidth={1.5} />}
+              </button>
+            ) : (
+              <button
+                onClick={() => toast.error('Inicia sesión con Google para enviar evaluaciones')}
+                className="bg-amber-500/20 text-amber-300 px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 border border-amber-500/30"
+              >
+                Finalizar Evaluación <Send className="w-4 h-4" strokeWidth={1.5} />
+              </button>
+            )
           ) : (
             <button
               onClick={() => setCurrentIndex(Math.min(totalQuestions - 1, currentIndex + 1))}

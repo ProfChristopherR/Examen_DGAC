@@ -29,7 +29,7 @@ export async function signInWithGoogle() {
   const { data, error } = await client.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'https://profchristopherr.github.io/Examen_DGAC/Examen_DGAC/auth/callback',
+      redirectTo: 'https://profchristopherr.github.io/Examen_DGAC/Examen_DGAC/',
     },
   })
   return { data, error }
