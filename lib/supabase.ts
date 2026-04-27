@@ -29,9 +29,7 @@ export async function signInWithGoogle() {
   const { data, error } = await client.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: typeof window !== 'undefined'
-        ? `${window.location.origin}/Examen_DGAC/mode-select`
-        : 'https://profchristopherr.github.io/Examen_DGAC/Examen_DGAC/mode-select',
+      redirectTo: 'https://profchristopherr.github.io/Examen_DGAC/Examen_DGAC/mode-select',
     },
   })
   return { data, error }

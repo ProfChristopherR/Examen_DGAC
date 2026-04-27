@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, useMotionTemplate, useMotionValue, AnimatePresence } from 'framer-motion'
-import { BookOpen, ClipboardCheck, ArrowRight, User, Mail, Shield, Zap, Globe, ChevronRight, Download, Upload } from 'lucide-react'
+import { BookOpen, ClipboardCheck, ArrowRight, User, Mail, Shield, Zap, Globe, ChevronRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { getSupabase, signInWithGoogle, getSession } from '@/lib/supabase'
-import { exportData, importData } from '@/lib/storage'
 
 /* ─── Animated Drone SVG Component ─── */
 function DroneHero({ className = '' }: { className?: string }) {
@@ -229,7 +228,6 @@ export default function Home() {
   const [checkingSession, setCheckingSession] = useState(true)
   const router = useRouter()
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Check if already logged in via Supabase
   useEffect(() => {
@@ -260,28 +258,49 @@ export default function Home() {
     setLoading(true)
     try {
       const client = getSupabase()
-      const { data, error } = await client.auth.signUp({
+      const password = Math.random().toString(36).substring(2, 15)
+      
+      // Try to sign up
+      const { data: signUpData, error: signUpError } = await client.auth.signUp({
         email: email.trim(),
-        password: Math.random().toString(36).substring(2, 15),
+        password,
         options: {
-          data: { name: name.trim() }
+          data: { name: name.trim() },
+          emailRedirectTo: 'https://profchristopherr.github.io/Examen_DGAC/Examen_DGAC/mode-select',
         }
       })
-      if (error) {
-        // If user already exists, try sign in with magic link
-        if (error.message.includes('already registered')) {
-          const { error: signInError } = await client.auth.signInWithOtp({
+      
+      if (signUpError) {
+        // If user already exists, try to sign in
+        if (signUpError.message.includes('already registered') || signUpError.message.includes('User already registered')) {
+          const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
             email: email.trim(),
-            options: { data: { name: name.trim() } }
+            password: 'dummy_password_that_will_fail',
           })
-          if (signInError) throw signInError
-          toast.success('Te enviamos un enlace mágico a tu correo')
-          return
+          if (signInError && signInError.message.includes('Invalid login credentials')) {
+            toast.error('Este email ya está registrado. Usa "Continuar con Google" o contacta al administrador.')
+            setLoading(false)
+            return
+          }
+          if (signInData?.user) {
+            router.push('/mode-select')
+            return
+          }
         }
-        throw error
+        throw signUpError
       }
-      if (data.user) {
-        router.push('/mode-select')
+      
+      if (signUpData.user) {
+        // Auto-sign in after sign up (if email confirmation is disabled)
+        const { data: signInData } = await client.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        })
+        if (signInData?.user) {
+          router.push('/mode-select')
+        } else {
+          toast.success('Cuenta creada. Revisa tu correo para confirmar.')
+        }
       }
     } catch (err: any) {
       toast.error(err.message || 'Error al registrarse')
@@ -298,34 +317,6 @@ export default function Home() {
       setLoading(false)
     }
     // Redirect happens automatically via OAuth callback
-  }
-
-  const handleExport = () => {
-    const data = exportData()
-    const blob = new Blob([data], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `rpas_backup_${new Date().toISOString().slice(0, 10)}.json`
-    a.click()
-    URL.revokeObjectURL(url)
-    toast.success('Datos exportados correctamente')
-  }
-
-  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = (ev) => {
-      const result = importData(String(ev.target?.result || ''))
-      if (result.success) {
-        toast.success(result.message)
-      } else {
-        toast.error(result.message)
-      }
-    }
-    reader.readAsText(file)
-    e.target.value = ''
   }
 
   if (checkingSession) {
@@ -391,7 +382,7 @@ export default function Home() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
                   </span>
-                  Plataforma oficial de preparación DGAC Chile
+                  Plataforma de práctica para la obtención de la credencial de operador de Drones DGAC
                 </div>
               </motion.div>
 
@@ -468,27 +459,9 @@ export default function Home() {
                       <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </motion.button>
 
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={handleExport}
-                        className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-slate-400 hover:text-white hover:bg-white/[0.06] transition-all text-sm"
-                      >
-                        <Download className="w-4 h-4" /> Respaldar
-                      </button>
-                      <button
-                        onClick={() => fileInputRef.current?.click()}
-                        className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-slate-400 hover:text-white hover:bg-white/[0.06] transition-all text-sm"
-                      >
-                        <Upload className="w-4 h-4" /> Restaurar
-                      </button>
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="application/json"
-                        className="hidden"
-                        onChange={handleImport}
-                      />
-                    </div>
+                    <p className="text-xs text-slate-500">
+                      Gratuito • Sin registro complejo
+                    </p>
                   </motion.div>
 
                   <motion.p
@@ -497,7 +470,7 @@ export default function Home() {
                     transition={{ delay: 0.6 }}
                     className="text-xs text-slate-600 mt-4"
                   >
-                    Gratuito • Historial en la nube con Supabase • Google Login disponible
+                    Historial en la nube con Supabase • Google Login disponible
                   </motion.p>
                 </div>
 
