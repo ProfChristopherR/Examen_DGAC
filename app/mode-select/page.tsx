@@ -2,37 +2,86 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { BookOpen, ClipboardCheck, Plane, ArrowLeft, History, Trash2, Download, Upload, Trophy, AlertCircle, User, ChevronRight, RotateCcw } from 'lucide-react'
+import { BookOpen, ClipboardCheck, Plane, ArrowLeft, History, Trash2, Download, Upload, Trophy, AlertCircle, User, ChevronRight, RotateCcw, Crown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { getUser, clearUser, getHistory, clearHistory, exportData, importData, loadPracticeProgress, clearEvalStorage } from '@/lib/storage'
-import type { HistoryEntry, UserProfile } from '@/lib/storage'
+import { supabase, signOut, getCurrentUser, getAttempts, deleteAttempt, getLeaderboard } from '@/lib/supabase'
+import type { Attempt } from '@/lib/supabase'
+import { exportData, importData, loadPracticeProgress, clearEvalStorage } from '@/lib/storage'
 
 export default function ModeSelect() {
   const router = useRouter()
-  const [user, setLocalUser] = useState<UserProfile | null>(null)
-  const [history, setHistory] = useState<HistoryEntry[]>([])
+  const [user, setUser] = useState<any>(null)
+  const [profile, setProfile] = useState<any>(null)
+  const [history, setHistory] = useState<Attempt[]>([])
   const [showHistory, setShowHistory] = useState(false)
+  const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const [leaderboard, setLeaderboard] = useState<any[]>([])
   const [hasPracticeProgress, setHasPracticeProgress] = useState(false)
+  const [loading, setLoading] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    const u = getUser()
-    if (!u) {
+    init()
+  }, [])
+
+  const init = async () => {
+    const currentUser = await getCurrentUser()
+    if (!currentUser) {
       router.replace('/')
       return
     }
-    setLocalUser(u)
-    setHistory(getHistory())
+    setUser(currentUser)
+
+    // Get or create profile
+    const { data: existingProfile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', currentUser.id)
+      .single()
+
+    if (existingProfile) {
+      setProfile(existingProfile)
+    } else {
+      const name = currentUser.user_metadata?.name || currentUser.user_metadata?.full_name || 'Piloto'
+      const avatar = currentUser.user_metadata?.avatar_url || currentUser.user_metadata?.picture || null
+      const { data: newProfile } = await supabase
+        .from('profiles')
+        .upsert({
+          id: currentUser.id,
+          email: currentUser.email,
+          name,
+          avatar_url: avatar,
+        })
+        .select()
+        .single()
+      setProfile(newProfile)
+    }
+
+    // Load attempts
+    const { data: attempts } = await getAttempts(currentUser.id)
+    setHistory(attempts || [])
+
+    // Check local practice progress
     const progress = loadPracticeProgress()
     setHasPracticeProgress(Object.keys(progress.answers).length > 0)
-  }, [router])
 
-  const handleClearHistory = () => {
+    setLoading(false)
+  }
+
+  const handleClearHistory = async () => {
     if (!confirm('¿Eliminar todo el historial de ensayos?')) return
-    clearHistory()
+    for (const attempt of history) {
+      await deleteAttempt(attempt.id)
+    }
     setHistory([])
     toast.success('Historial eliminado')
+  }
+
+  const handleLoadLeaderboard = async () => {
+    setShowLeaderboard(true)
+    const { data } = await getLeaderboard(20)
+    setLeaderboard(data || [])
   }
 
   const handleExport = () => {
@@ -55,9 +104,6 @@ export default function ModeSelect() {
       const result = importData(String(ev.target?.result || ''))
       if (result.success) {
         toast.success(result.message)
-        setHistory(getHistory())
-        const u = getUser()
-        if (u) setLocalUser(u)
       } else {
         toast.error(result.message)
       }
@@ -66,8 +112,8 @@ export default function ModeSelect() {
     e.target.value = ''
   }
 
-  const handleLogout = () => {
-    clearUser()
+  const handleLogout = async () => {
+    await signOut()
     clearEvalStorage()
     router.push('/')
   }
@@ -89,7 +135,7 @@ export default function ModeSelect() {
     }
   }
 
-  if (!user) {
+  if (loading) {
     return (
       <main className="min-h-screen bg-[#050508] flex items-center justify-center">
         <div className="w-10 h-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
@@ -117,14 +163,14 @@ export default function ModeSelect() {
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="mx-auto w-16 h-16 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center mb-5 overflow-hidden"
           >
-            {user.picture ? (
-              <img src={user.picture} alt="avatar" className="w-full h-full object-cover" />
+            {profile?.avatar_url ? (
+              <img src={profile.avatar_url} alt="avatar" className="w-full h-full object-cover" />
             ) : (
               <Plane className="w-7 h-7 text-cyan-400" strokeWidth={1.5} />
             )}
           </motion.div>
           <h1 className="font-display text-3xl sm:text-4xl font-black tracking-tighter text-white">
-            Hola, <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">{user.name || 'Piloto'}</span>
+            Hola, <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">{profile?.name || 'Piloto'}</span>
           </h1>
           <p className="text-slate-400 text-lg font-light mt-3">Selecciona el modo de estudio</p>
         </motion.div>
@@ -212,7 +258,7 @@ export default function ModeSelect() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mb-6"
+          className="mb-4"
         >
           <button
             onClick={() => setShowHistory(v => !v)}
@@ -256,7 +302,7 @@ export default function ModeSelect() {
                           <p className="text-sm text-slate-200 font-medium">
                             {h.type === 'evaluation' ? 'Evaluación' : 'Práctica'} — {h.percentage}%
                           </p>
-                          <p className="text-[10px] text-slate-500">{formatDate(h.date)}</p>
+                          <p className="text-[10px] text-slate-500">{formatDate(h.created_at)}</p>
                         </div>
                       </div>
                       <div className="text-right">
@@ -284,11 +330,81 @@ export default function ModeSelect() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Footer actions */}
+        {/* Leaderboard panel */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
+          className="mb-6"
+        >
+          <button
+            onClick={() => {
+              if (!showLeaderboard) handleLoadLeaderboard()
+              else setShowLeaderboard(false)
+            }}
+            className="w-full flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.04] transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <Crown className="w-5 h-5 text-amber-400" strokeWidth={1.5} />
+              <span className="text-sm font-medium text-slate-300">Ranking global</span>
+            </div>
+            <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${showLeaderboard ? 'rotate-90' : ''}`} />
+          </button>
+
+          <AnimatePresence>
+            {showLeaderboard && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="mt-3 space-y-2 max-h-[320px] overflow-y-auto pr-1">
+                  {leaderboard.length === 0 && (
+                    <div className="text-center py-8 text-slate-500 text-sm">
+                      Aún no hay datos en el ranking. ¡Sé el primero!
+                    </div>
+                  )}
+                  {leaderboard.map((entry: any, idx: number) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.03 }}
+                      className="flex items-center justify-between p-3 rounded-xl border border-amber-500/10 bg-amber-500/5"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${
+                          idx === 0 ? 'bg-amber-500/20 text-amber-300' :
+                          idx === 1 ? 'bg-slate-400/20 text-slate-300' :
+                          idx === 2 ? 'bg-orange-600/20 text-orange-300' :
+                          'bg-white/[0.03] text-slate-500'
+                        }`}>
+                          {idx + 1}
+                        </div>
+                        <div>
+                          <p className="text-sm text-slate-200 font-medium">
+                            {entry.profiles?.name || 'Anónimo'}
+                          </p>
+                          <p className="text-[10px] text-slate-500">{entry.percentage}% • {entry.grade}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-bold font-mono text-amber-400">{entry.score}/{entry.total}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Footer actions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
           className="flex flex-wrap items-center justify-center gap-3"
         >
           <button
@@ -308,7 +424,7 @@ export default function ModeSelect() {
             onClick={handleLogout}
             className="inline-flex items-center gap-2 text-slate-400 hover:text-white text-sm transition-colors px-4 py-2 rounded-lg hover:bg-white/[0.04]"
           >
-            <ArrowLeft className="w-4 h-4" /> Cambiar cuenta
+            <ArrowLeft className="w-4 h-4" /> Cerrar sesión
           </button>
         </motion.div>
       </div>

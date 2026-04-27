@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ClipboardCheck, ChevronLeft, ChevronRight, Check, X, ArrowLeft, Send, Trophy, AlertCircle, Mail, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { getUser, addHistory, clearEvalStorage } from '@/lib/storage'
+import { getCurrentUser, saveAttempt } from '@/lib/supabase'
+import { clearEvalStorage } from '@/lib/storage'
 import { splitQuestionLines } from '@/lib/format-question'
 
 interface Question {
@@ -34,12 +35,12 @@ interface ResultItem {
 function QuestionText({ text }: { text: string }) {
   const lines = splitQuestionLines(text)
   if (lines.length <= 1) {
-    return <p className="text-base sm:text-lg font-medium text-foreground mb-6 leading-relaxed">{text}</p>
+    return <p className="text-base sm:text-lg font-medium text-white mb-6 leading-relaxed">{text}</p>
   }
   return (
-    <div className="text-base sm:text-lg font-medium text-foreground mb-6 leading-relaxed space-y-2">
+    <div className="text-base sm:text-lg font-medium text-white mb-6 leading-relaxed space-y-2">
       {lines.map((line, i) => (
-        <p key={i} className={i === 0 ? '' : 'pl-0'}>{line}</p>
+        <p key={i}>{line}</p>
       ))}
     </div>
   )
@@ -57,16 +58,22 @@ export default function EvaluationQuiz() {
   const [emailSending, setEmailSending] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [user, setUser] = useState<any>(null)
   const hasSubmittedRef = useRef(false)
 
   useEffect(() => {
-    const user = getUser()
-    if (!user) {
+    checkAuth()
+  }, [])
+
+  const checkAuth = async () => {
+    const currentUser = await getCurrentUser()
+    if (!currentUser) {
       router.replace('/')
       return
     }
+    setUser(currentUser)
     fetchQuestions()
-  }, [router])
+  }
 
   const fetchQuestions = async () => {
     try {
@@ -178,9 +185,8 @@ export default function EvaluationQuiz() {
 
     setSubmitting(true)
     try {
-      const user = getUser()
-      const userName = user?.name ?? ''
-      const userEmail = user?.email ?? ''
+      const userName = user?.user_metadata?.name || user?.user_metadata?.full_name || 'Usuario'
+      const userEmail = user?.email || ''
 
       await new Promise(resolve => setTimeout(resolve, 600))
 
@@ -225,17 +231,20 @@ export default function EvaluationQuiz() {
       localStorage.setItem('rpas_eval_submitted', 'true')
       localStorage.setItem('rpas_eval_results', JSON.stringify(evalData))
 
-      // Save to history
+      // Save to Supabase
       if (user) {
-        addHistory({
+        const { error } = await saveAttempt({
+          user_id: user.id,
           type: 'evaluation',
           score: correctCount,
           total: totalCount,
           percentage,
           grade: gradeStr,
-          userName: user.name,
-          userEmail: user.email,
+          answers,
         })
+        if (error) {
+          console.error('Error saving attempt:', error)
+        }
       }
 
       // Build email body

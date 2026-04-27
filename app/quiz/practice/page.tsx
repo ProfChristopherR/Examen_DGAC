@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, ChevronLeft, ChevronRight, Check, X, ArrowLeft, Send, RotateCcw, Trophy, AlertCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { getUser, addHistory, savePracticeProgress, loadPracticeProgress, clearPracticeProgress } from '@/lib/storage'
+import { getCurrentUser, saveAttempt } from '@/lib/supabase'
+import { savePracticeProgress, loadPracticeProgress, clearPracticeProgress } from '@/lib/storage'
 import { splitQuestionLines } from '@/lib/format-question'
 
 interface Question {
@@ -35,12 +36,12 @@ interface ResultItem {
 function QuestionText({ text }: { text: string }) {
   const lines = splitQuestionLines(text)
   if (lines.length <= 1) {
-    return <p className="text-base sm:text-lg font-medium text-foreground mb-6 leading-relaxed">{text}</p>
+    return <p className="text-base sm:text-lg font-medium text-white mb-6 leading-relaxed">{text}</p>
   }
   return (
-    <div className="text-base sm:text-lg font-medium text-foreground mb-6 leading-relaxed space-y-2">
+    <div className="text-base sm:text-lg font-medium text-white mb-6 leading-relaxed space-y-2">
       {lines.map((line, i) => (
-        <p key={i} className={i === 0 ? '' : 'pl-0'}>{line}</p>
+        <p key={i}>{line}</p>
       ))}
     </div>
   )
@@ -56,15 +57,21 @@ export default function PracticeQuiz() {
   const [results, setResults] = useState<any>(null)
   const [showResults, setShowResults] = useState(false)
   const [reviewFilter, setReviewFilter] = useState<'all' | 'correct' | 'incorrect'>('all')
+  const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
-    const user = getUser()
-    if (!user) {
+    checkAuth()
+  }, [])
+
+  const checkAuth = async () => {
+    const currentUser = await getCurrentUser()
+    if (!currentUser) {
       router.replace('/')
       return
     }
+    setUser(currentUser)
     fetchQuestions()
-  }, [router])
+  }
 
   const fetchQuestions = async () => {
     try {
@@ -154,18 +161,20 @@ export default function PracticeQuiz() {
       setShowResults(true)
       clearPracticeProgress()
 
-      // Save to history
-      const user = getUser()
+      // Save to Supabase
       if (user) {
-        addHistory({
+        const { error } = await saveAttempt({
+          user_id: user.id,
           type: 'practice',
           score: correctCount,
           total: totalCount,
           percentage,
           grade: gradeStr,
-          userName: user.name,
-          userEmail: user.email,
+          answers,
         })
+        if (error) {
+          console.error('Error saving attempt:', error)
+        }
       }
     } catch (err: any) {
       console.error(err)
@@ -205,16 +214,15 @@ export default function PracticeQuiz() {
     setShowResults(true)
     clearPracticeProgress()
 
-    const user = getUser()
     if (user) {
-      addHistory({
+      saveAttempt({
+        user_id: user.id,
         type: 'practice',
         score: totalCount,
         total: totalCount,
         percentage: 100,
         grade: '7,0',
-        userName: user.name,
-        userEmail: user.email,
+        answers: correctAnswers,
       })
     }
   }
