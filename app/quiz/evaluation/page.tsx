@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ClipboardCheck, ChevronLeft, ChevronRight, Check, X, ArrowLeft, Send, Trophy, AlertCircle, Mail, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { getUser, addHistory, clearEvalStorage } from '@/lib/storage'
+import { splitQuestionLines } from '@/lib/format-question'
 
 interface Question {
   id: string
@@ -29,6 +31,20 @@ interface ResultItem {
   isCorrect: boolean
 }
 
+function QuestionText({ text }: { text: string }) {
+  const lines = splitQuestionLines(text)
+  if (lines.length <= 1) {
+    return <p className="text-base sm:text-lg font-medium text-foreground mb-6 leading-relaxed">{text}</p>
+  }
+  return (
+    <div className="text-base sm:text-lg font-medium text-foreground mb-6 leading-relaxed space-y-2">
+      {lines.map((line, i) => (
+        <p key={i} className={i === 0 ? '' : 'pl-0'}>{line}</p>
+      ))}
+    </div>
+  )
+}
+
 export default function EvaluationQuiz() {
   const router = useRouter()
   const [questions, setQuestions] = useState<Question[]>([])
@@ -44,8 +60,8 @@ export default function EvaluationQuiz() {
   const hasSubmittedRef = useRef(false)
 
   useEffect(() => {
-    const userId = localStorage.getItem('rpas_user_id')
-    if (!userId) {
+    const user = getUser()
+    if (!user) {
       router.replace('/')
       return
     }
@@ -56,7 +72,7 @@ export default function EvaluationQuiz() {
     try {
       const res = await fetch('/Examen_DGAC/questions.json')
       const data = await res.json()
-      
+
       const formatted = (data ?? []).map((q: any) => ({
         id: q?.number?.toString() ?? '',
         number: q?.number ?? 0,
@@ -153,7 +169,7 @@ export default function EvaluationQuiz() {
     hasSubmittedRef.current = true
     const answeredCount = Object.keys(answers ?? {})?.length ?? 0
     const totalCount = questions?.length ?? 0
-    
+
     if (answeredCount < totalCount) {
       hasSubmittedRef.current = false
       toast.error(`Debes responder todas las preguntas (${answeredCount}/${totalCount}) antes de finalizar la evaluación.`)
@@ -162,11 +178,12 @@ export default function EvaluationQuiz() {
 
     setSubmitting(true)
     try {
-      const userName = localStorage.getItem('rpas_user_name') ?? ''
-      const userEmail = localStorage.getItem('rpas_user_email') ?? ''
+      const user = getUser()
+      const userName = user?.name ?? ''
+      const userEmail = user?.email ?? ''
 
       await new Promise(resolve => setTimeout(resolve, 600))
-      
+
       let correctCount = 0
       const resultsArr = questions.map((q: any) => {
         const isCorrect = answers[q.id] === q.correctAnswer
@@ -184,7 +201,7 @@ export default function EvaluationQuiz() {
           isCorrect
         }
       })
-      
+
       const percentage = Math.round((correctCount / totalCount) * 100)
       let grade = 1.0
       if (percentage < 60) {
@@ -207,6 +224,19 @@ export default function EvaluationQuiz() {
       setSubmitted(true)
       localStorage.setItem('rpas_eval_submitted', 'true')
       localStorage.setItem('rpas_eval_results', JSON.stringify(evalData))
+
+      // Save to history
+      if (user) {
+        addHistory({
+          type: 'evaluation',
+          score: correctCount,
+          total: totalCount,
+          percentage,
+          grade: gradeStr,
+          userName: user.name,
+          userEmail: user.email,
+        })
+      }
 
       // Build email body
       const incorrectList = resultsArr
@@ -268,21 +298,12 @@ export default function EvaluationQuiz() {
     }
   }
 
-  const clearEvalStorage = () => {
-    localStorage.removeItem('rpas_eval_questions')
-    localStorage.removeItem('rpas_eval_answers')
-    localStorage.removeItem('rpas_eval_index')
-    localStorage.removeItem('rpas_eval_submitted')
-    localStorage.removeItem('rpas_eval_results')
-    localStorage.removeItem('rpas_eval_email_sent')
-  }
-
   if (loading) {
     return (
-      <main className="min-h-screen aurora-bg flex items-center justify-center">
+      <main className="min-h-screen bg-[#050508] flex items-center justify-center">
         <div className="relative z-10 text-center">
           <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Preparando evaluación...</p>
+          <p className="text-slate-400">Preparando evaluación...</p>
         </div>
       </main>
     )
@@ -295,47 +316,47 @@ export default function EvaluationQuiz() {
     const incorrectResults = (results?.results ?? []).filter((r: ResultItem) => !r?.isCorrect)
 
     return (
-      <main className="min-h-screen aurora-bg p-4 sm:p-6">
+      <main className="min-h-screen bg-[#050508] p-4 sm:p-6">
         <div className="relative z-10 max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass rounded-3xl p-8 sm:p-10 mb-6 text-center"
+            className="rounded-3xl p-8 sm:p-10 mb-6 text-center bg-white/[0.02] border border-white/[0.06] backdrop-blur-xl"
           >
-            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 ${approved ? 'bg-emerald-100' : 'bg-red-100'}`}>
-              {approved ? <Trophy className="w-8 h-8 text-emerald-600" strokeWidth={1.5} /> : <AlertCircle className="w-8 h-8 text-red-600" strokeWidth={1.5} />}
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 ${approved ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
+              {approved ? <Trophy className="w-8 h-8 text-emerald-400" strokeWidth={1.5} /> : <AlertCircle className="w-8 h-8 text-red-400" strokeWidth={1.5} />}
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl font-black tracking-tighter mb-1">
+            <h1 className="font-display text-3xl sm:text-4xl font-black tracking-tighter mb-1 text-white">
               {approved ? '¡Aprobado!' : 'No aprobado'}
             </h1>
-            <p className="text-muted-foreground mb-8">Resultado de tu evaluación RPAS</p>
+            <p className="text-slate-400 mb-8">Resultado de tu evaluación RPAS</p>
 
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="bg-muted/40 rounded-2xl p-4 sm:p-5">
-                <p className="text-2xl sm:text-3xl font-bold font-mono text-foreground">{results?.correctCount ?? 0}/{results?.totalQuestions ?? 0}</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-widest">Correctas</p>
+              <div className="bg-white/[0.03] rounded-2xl p-4 sm:p-5">
+                <p className="text-2xl sm:text-3xl font-bold font-mono text-white">{results?.correctCount ?? 0}/{results?.totalQuestions ?? 0}</p>
+                <p className="text-[10px] sm:text-xs text-slate-500 mt-1 uppercase tracking-widest">Correctas</p>
               </div>
-              <div className="bg-muted/40 rounded-2xl p-4 sm:p-5">
-                <p className="text-2xl sm:text-3xl font-bold font-mono text-foreground">{percentage}%</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-widest">Porcentaje</p>
+              <div className="bg-white/[0.03] rounded-2xl p-4 sm:p-5">
+                <p className="text-2xl sm:text-3xl font-bold font-mono text-white">{percentage}%</p>
+                <p className="text-[10px] sm:text-xs text-slate-500 mt-1 uppercase tracking-widest">Porcentaje</p>
               </div>
-              <div className={`rounded-2xl p-4 sm:p-5 ${approved ? 'bg-emerald-50/70' : 'bg-red-50/70'}`}>
-                <p className={`text-2xl sm:text-3xl font-bold font-mono ${approved ? 'text-emerald-600' : 'text-red-600'}`}>{grade}</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-widest">Nota</p>
+              <div className={`rounded-2xl p-4 sm:p-5 ${approved ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
+                <p className={`text-2xl sm:text-3xl font-bold font-mono ${approved ? 'text-emerald-400' : 'text-red-400'}`}>{grade}</p>
+                <p className="text-[10px] sm:text-xs text-slate-500 mt-1 uppercase tracking-widest">Nota</p>
               </div>
             </div>
 
             <div className="flex items-center justify-center gap-2 mb-8">
               {emailSending ? (
-                <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="inline-flex items-center gap-2 text-sm text-slate-400">
                   <Loader2 className="w-4 h-4 animate-spin" strokeWidth={1.5} /> Enviando resultados por correo...
                 </span>
               ) : emailSent ? (
-                <span className="inline-flex items-center gap-2 text-sm text-emerald-600">
+                <span className="inline-flex items-center gap-2 text-sm text-emerald-400">
                   <Mail className="w-4 h-4" strokeWidth={1.5} /> Resultados enviados a christopherruiz@liceosannicolas.cl
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="inline-flex items-center gap-2 text-sm text-slate-500">
                   <Mail className="w-4 h-4" strokeWidth={1.5} /> Pendiente de envío
                 </span>
               )}
@@ -343,7 +364,7 @@ export default function EvaluationQuiz() {
 
             <button
               onClick={() => { clearEvalStorage(); router.push('/mode-select') }}
-              className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium inline-flex items-center gap-2 hover:opacity-90 transition-opacity glow-primary"
+              className="bg-emerald-500 text-white px-6 py-3 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-500/20"
             >
               <ArrowLeft className="w-4 h-4" strokeWidth={1.5} /> Volver al menú
             </button>
@@ -352,7 +373,7 @@ export default function EvaluationQuiz() {
           {/* Show incorrect answers */}
           {(incorrectResults?.length ?? 0) > 0 && (
             <div>
-              <h3 className="font-display text-lg font-bold text-foreground mb-4">
+              <h3 className="font-display text-lg font-bold text-white mb-4">
                 Preguntas incorrectas ({incorrectResults?.length ?? 0})
               </h3>
               <div className="space-y-4">
@@ -362,27 +383,31 @@ export default function EvaluationQuiz() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: Math.min(idx * 0.05, 0.5) }}
-                    className="glass rounded-2xl p-5 sm:p-6 border-l-4 border-l-red-500"
+                    className="rounded-2xl p-5 sm:p-6 border-l-4 border-l-red-500 bg-white/[0.02] border border-white/[0.06] backdrop-blur-xl"
                   >
-                    <p className="text-sm font-medium text-foreground mb-3 leading-relaxed">
-                      <span className="text-muted-foreground">#{result?.questionNumber ?? 0}</span>{' '}
-                      {result?.questionText ?? ''}
-                    </p>
+                    <div className="text-sm font-medium text-white mb-3 leading-relaxed space-y-1">
+                      <p>
+                        <span className="text-slate-500">#{result?.questionNumber ?? 0}</span>{' '}
+                        {splitQuestionLines(result?.questionText ?? '').map((line, li) => (
+                          <span key={li} className="block">{line}</span>
+                        ))}
+                      </p>
+                    </div>
                     <div className="space-y-1.5">
                       {['a', 'b', 'c', 'd'].map((letter: string) => {
                         const isUser = result?.userAnswer === letter
                         const isCorrectAnswer = result?.correctAnswer === letter
                         let classes = 'text-sm px-3 py-1.5 rounded-lg '
-                        if (isCorrectAnswer) classes += 'bg-emerald-50/70 text-emerald-800 font-medium '
-                        else if (isUser) classes += 'bg-red-50/70 text-red-800 line-through '
-                        else classes += 'text-muted-foreground '
+                        if (isCorrectAnswer) classes += 'bg-emerald-500/10 text-emerald-300 font-medium '
+                        else if (isUser) classes += 'bg-red-500/10 text-red-300 line-through '
+                        else classes += 'text-slate-500 '
 
                         return (
                           <div key={letter} className={classes}>
                             <span className="font-mono font-bold mr-2">{letter?.toUpperCase?.() ?? ''})</span>
                             {getOptionText(result, letter)}
-                            {isCorrectAnswer && <span className="ml-2 text-emerald-600">✓</span>}
-                            {isUser && !isCorrectAnswer && <span className="ml-2 text-red-500">(tu respuesta)</span>}
+                            {isCorrectAnswer && <span className="ml-2 text-emerald-400">✓</span>}
+                            {isUser && !isCorrectAnswer && <span className="ml-2 text-red-400">(tu respuesta)</span>}
                           </div>
                         )
                       })}
@@ -403,7 +428,7 @@ export default function EvaluationQuiz() {
   const progress = totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0
 
   return (
-    <main className="min-h-screen aurora-bg p-4 sm:p-6">
+    <main className="min-h-screen bg-[#050508] p-4 sm:p-6">
       <div className="relative z-10 max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -414,25 +439,25 @@ export default function EvaluationQuiz() {
                 router.push('/mode-select')
               }
             }}
-            className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-muted/40"
+            className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-white/[0.04]"
           >
             <ArrowLeft className="w-4 h-4" strokeWidth={1.5} /> Salir
           </button>
           <div className="flex items-center gap-2">
-            <button 
+            <button
               onClick={fillRandomAnswers}
-              className="text-[10px] text-muted-foreground opacity-30 hover:opacity-100 transition-opacity mr-4 decoration-dotted underline"
+              className="text-[10px] text-slate-500 opacity-30 hover:opacity-100 transition-opacity mr-4 decoration-dotted underline"
             >
               Test Button
             </button>
-            <ClipboardCheck className="w-4 h-4 text-emerald-500" strokeWidth={1.5} />
-            <span className="text-sm font-medium text-foreground">Evaluación</span>
+            <ClipboardCheck className="w-4 h-4 text-emerald-400" strokeWidth={1.5} />
+            <span className="text-sm font-medium text-white">Evaluación</span>
           </div>
-          <span className="text-sm text-muted-foreground font-mono">{answeredCount}/{totalQuestions}</span>
+          <span className="text-sm text-slate-500 font-mono">{answeredCount}/{totalQuestions}</span>
         </div>
 
         {/* Progress bar */}
-        <div className="w-full bg-muted/50 rounded-full h-1.5 mb-8 overflow-hidden">
+        <div className="w-full bg-white/[0.05] rounded-full h-1.5 mb-8 overflow-hidden">
           <motion.div
             className="bg-emerald-500 h-1.5 rounded-full"
             initial={{ width: 0 }}
@@ -450,17 +475,15 @@ export default function EvaluationQuiz() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="glass rounded-3xl p-6 sm:p-8 mb-8"
+              className="rounded-3xl p-6 sm:p-8 mb-8 bg-white/[0.02] border border-white/[0.06] backdrop-blur-xl"
             >
               <div className="flex items-center gap-2 mb-5">
-                <span className="bg-emerald-100/70 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">
+                <span className="bg-emerald-500/10 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full">
                   Pregunta {currentIndex + 1} de {totalQuestions}
                 </span>
               </div>
 
-              <p className="text-base sm:text-lg font-medium text-foreground mb-6 leading-relaxed">
-                {currentQuestion?.questionText ?? ''}
-              </p>
+              <QuestionText text={currentQuestion?.questionText ?? ''} />
 
               <div className="space-y-3">
                 {(['a', 'b', 'c', 'd'] as const).map((letter: string) => {
@@ -476,16 +499,16 @@ export default function EvaluationQuiz() {
                       onClick={() => selectAnswer(currentQuestion?.id ?? '', letter)}
                       className={`w-full text-left px-5 py-3.5 rounded-xl border-2 transition-all flex items-start gap-3 ${
                         isSelected
-                          ? 'border-emerald-500 bg-emerald-50/40'
-                          : 'border-transparent bg-muted/40 hover:bg-muted/70'
+                          ? 'border-emerald-500 bg-emerald-500/5'
+                          : 'border-transparent bg-white/[0.03] hover:bg-white/[0.06]'
                       }`}
                     >
                       <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 ${
-                        isSelected ? 'bg-emerald-500 text-white' : 'bg-background text-muted-foreground border border-border'
+                        isSelected ? 'bg-emerald-500 text-white' : 'bg-[#0a0a0f] text-slate-400 border border-white/[0.08]'
                       }`}>
                         {letter?.toUpperCase?.() ?? ''}
                       </span>
-                      <span className={`text-sm sm:text-base ${isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
+                      <span className={`text-sm sm:text-base ${isSelected ? 'text-white font-medium' : 'text-slate-400'}`}>
                         {optionText}
                       </span>
                     </motion.button>
@@ -501,7 +524,7 @@ export default function EvaluationQuiz() {
           <button
             onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
             disabled={currentIndex === 0}
-            className="bg-muted/50 text-foreground px-4 py-2.5 rounded-xl font-medium inline-flex items-center gap-1.5 hover:bg-muted/80 transition-colors disabled:opacity-40"
+            className="bg-white/[0.03] text-white px-4 py-2.5 rounded-xl font-medium inline-flex items-center gap-1.5 hover:bg-white/[0.06] transition-colors disabled:opacity-40 border border-white/[0.06]"
           >
             <ChevronLeft className="w-4 h-4" strokeWidth={1.5} /> Anterior
           </button>
@@ -510,7 +533,7 @@ export default function EvaluationQuiz() {
             <button
               onClick={handleSubmit}
               disabled={submitting}
-              className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-emerald-700 transition-colors disabled:opacity-50 shadow-lg shadow-emerald-500/20"
+              className="bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-emerald-400 transition-colors disabled:opacity-50 shadow-lg shadow-emerald-500/20"
             >
               {submitting ? 'Enviando...' : 'Finalizar Evaluación'}
               {!submitting && <Send className="w-4 h-4" strokeWidth={1.5} />}
@@ -518,7 +541,7 @@ export default function EvaluationQuiz() {
           ) : (
             <button
               onClick={() => setCurrentIndex(Math.min(totalQuestions - 1, currentIndex + 1))}
-              className="bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-medium inline-flex items-center gap-1.5 hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-500/20"
+              className="bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-medium inline-flex items-center gap-1.5 hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-500/20"
             >
               Siguiente <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
             </button>
@@ -533,10 +556,10 @@ export default function EvaluationQuiz() {
               onClick={() => setCurrentIndex(idx)}
               className={`w-8 h-8 rounded-lg text-xs font-mono font-bold transition-all ${
                 idx === currentIndex
-                  ? 'bg-emerald-600 text-white scale-110 shadow-sm'
-                  : answers?.[q?.id ?? ''] 
-                    ? 'bg-emerald-200/60 text-emerald-700'
-                    : 'bg-muted/40 text-muted-foreground hover:bg-muted/70'
+                  ? 'bg-emerald-500 text-white scale-110 shadow-sm'
+                  : answers?.[q?.id ?? '']
+                    ? 'bg-emerald-500/15 text-emerald-300'
+                    : 'bg-white/[0.03] text-slate-500 hover:bg-white/[0.06]'
               }`}
             >
               {idx + 1}
