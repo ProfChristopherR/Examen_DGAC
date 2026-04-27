@@ -178,9 +178,16 @@ export default function Home() {
   async function handleOAuthCallback() {
     try {
       const hash = window.location.hash
-      if (hash && hash.includes('access_token')) {
-        // We have an OAuth callback
+      const hasAuthParams = hash.includes('access_token') || hash.includes('refresh_token')
+      
+      if (hasAuthParams) {
+        // We have an OAuth callback — Supabase JS will auto-detect the session
+        // from the URL hash. Give it a moment to process, then read the session.
         const client = getSupabase()
+        
+        // Small delay to let Supabase internal hash processing complete
+        await new Promise(r => setTimeout(r, 300))
+        
         const { data: { session }, error } = await client.auth.getSession()
         
         if (error) {
@@ -209,7 +216,8 @@ export default function Home() {
             avatar_url: avatar,
           }, { onConflict: 'id' })
           
-          window.location.hash = ''
+          // Clear hash without reloading
+          window.history.replaceState(null, '', window.location.pathname + window.location.search)
           router.push('/mode-select')
           return
         }

@@ -241,7 +241,7 @@ export default function EvaluationQuiz() {
       localStorage.setItem('rpas_eval_submitted', 'true')
       localStorage.setItem('rpas_eval_results', JSON.stringify(evalData))
 
-      // Save to Supabase (only for Google users)
+      // Save to Supabase and send email (only for Google users)
       if (user?.provider === 'google') {
         try {
           const client = getSupabase()
@@ -257,58 +257,58 @@ export default function EvaluationQuiz() {
         } catch (err) {
           console.error('Error saving attempt:', err)
         }
-      }
 
-      // Build email body
-      const incorrectList = resultsArr
-        .filter((r: any) => !r.isCorrect)
-        .map((r: any) => `#${r.questionNumber} ${r.questionText}\n  Tu resp: ${(r.userAnswer || '?').toUpperCase()} - ${getOptionText(r, r.userAnswer)}\n  Correcta: ${r.correctAnswer.toUpperCase()} - ${getOptionText(r, r.correctAnswer)}`)
-        .join('\n\n')
+        // Build email body
+        const incorrectList = resultsArr
+          .filter((r: any) => !r.isCorrect)
+          .map((r: any) => `#${r.questionNumber} ${r.questionText}\n  Tu resp: ${(r.userAnswer || '?').toUpperCase()} - ${getOptionText(r, r.userAnswer)}\n  Correcta: ${r.correctAnswer.toUpperCase()} - ${getOptionText(r, r.correctAnswer)}`)
+          .join('\n\n')
 
-      const emailBody = `Alumno: ${userName}\nEmail: ${userEmail}\nNota: ${gradeStr}\nPorcentaje: ${percentage}%\nCorrectas: ${correctCount}/${totalCount}\n\n--- INCORRECTAS ---\n${incorrectList}`
+        const emailBody = `Alumno: ${userName}\nEmail: ${userEmail}\nNota: ${gradeStr}\nPorcentaje: ${percentage}%\nCorrectas: ${correctCount}/${totalCount}\n\n--- INCORRECTAS ---\n${incorrectList}`
 
-      // Send email to professor
-      setEmailSending(true)
-      const sendEmail = async (toEmail: string) => {
-        const payload = {
-          service_id: 'service_nbju40d',
-          template_id: 'template_9dvik9e',
-          user_id: 'QIlZqn3_PidWSY9Mm',
-          template_params: {
-            to_email: toEmail,
-            user_name: userName,
-            user_email: userEmail,
-            grade: gradeStr,
-            message: emailBody
+        // Send email to professor
+        setEmailSending(true)
+        const sendEmail = async (toEmail: string) => {
+          const payload = {
+            service_id: 'service_nbju40d',
+            template_id: 'template_9dvik9e',
+            user_id: 'QIlZqn3_PidWSY9Mm',
+            template_params: {
+              to_email: toEmail,
+              user_name: userName,
+              user_email: userEmail,
+              grade: gradeStr,
+              message: emailBody
+            }
           }
+          return fetch('https://api.emailjs.com/api/v1.0/email/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          })
         }
-        return fetch('https://api.emailjs.com/api/v1.0/email/send', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        })
-      }
 
-      try {
-        const [profRes, studentRes] = await Promise.allSettled([
-          sendEmail('christopherruiz@liceosannicolas.cl'),
-          userEmail ? sendEmail(userEmail) : Promise.resolve(null)
-        ])
-        const profOk = profRes.status === 'fulfilled' && (profRes.value as Response)?.ok
-        if (profOk) {
-          setEmailSent(true)
-          localStorage.setItem('rpas_eval_email_sent', 'true')
-          toast.success('Resultados enviados por correo')
-        } else {
-          toast.error('No se pudo enviar el correo. Revisa la consola.')
-          console.error('Email prof result:', profRes)
-          console.error('Email student result:', studentRes)
+        try {
+          const [profRes, studentRes] = await Promise.allSettled([
+            sendEmail('christopherruiz@liceosannicolas.cl'),
+            userEmail ? sendEmail(userEmail) : Promise.resolve(null)
+          ])
+          const profOk = profRes.status === 'fulfilled' && (profRes.value as Response)?.ok
+          if (profOk) {
+            setEmailSent(true)
+            localStorage.setItem('rpas_eval_email_sent', 'true')
+            toast.success('Resultados enviados por correo')
+          } else {
+            toast.error('No se pudo enviar el correo. Revisa la consola.')
+            console.error('Email prof result:', profRes)
+            console.error('Email student result:', studentRes)
+          }
+        } catch (emailErr) {
+          console.error('Email error:', emailErr)
+          toast.error('Error al enviar correo')
+        } finally {
+          setEmailSending(false)
         }
-      } catch (emailErr) {
-        console.error('Email error:', emailErr)
-        toast.error('Error al enviar correo')
-      } finally {
-        setEmailSending(false)
       }
     } catch (err: any) {
       hasSubmittedRef.current = false
@@ -368,7 +368,11 @@ export default function EvaluationQuiz() {
             </div>
 
             <div className="flex items-center justify-center gap-2 mb-8">
-              {emailSending ? (
+              {user?.provider === 'local' ? (
+                <span className="inline-flex items-center gap-2 text-sm text-amber-300">
+                  <Mail className="w-4 h-4" strokeWidth={1.5} /> Modo invitado — Los resultados no se envían por correo
+                </span>
+              ) : emailSending ? (
                 <span className="inline-flex items-center gap-2 text-sm text-slate-400">
                   <Loader2 className="w-4 h-4 animate-spin" strokeWidth={1.5} /> Enviando resultados por correo...
                 </span>
@@ -561,23 +565,14 @@ export default function EvaluationQuiz() {
           </button>
 
           {currentIndex === totalQuestions - 1 ? (
-            user?.provider === 'google' ? (
-              <button
-                onClick={handleSubmit}
-                disabled={submitting}
-                className="bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-emerald-400 transition-colors disabled:opacity-50 shadow-lg shadow-emerald-500/20"
-              >
-                {submitting ? 'Enviando...' : 'Finalizar Evaluación'}
-                {!submitting && <Send className="w-4 h-4" strokeWidth={1.5} />}
-              </button>
-            ) : (
-              <button
-                onClick={() => toast.error('Inicia sesión con Google para enviar evaluaciones')}
-                className="bg-amber-500/20 text-amber-300 px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 border border-amber-500/30"
-              >
-                Finalizar Evaluación <Send className="w-4 h-4" strokeWidth={1.5} />
-              </button>
-            )
+            <button
+              onClick={handleSubmit}
+              disabled={submitting}
+              className="bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-medium inline-flex items-center gap-2 hover:bg-emerald-400 transition-colors disabled:opacity-50 shadow-lg shadow-emerald-500/20"
+            >
+              {submitting ? 'Procesando...' : 'Finalizar Evaluación'}
+              {!submitting && <Send className="w-4 h-4" strokeWidth={1.5} />}
+            </button>
           ) : (
             <button
               onClick={() => setCurrentIndex(Math.min(totalQuestions - 1, currentIndex + 1))}
