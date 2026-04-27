@@ -410,12 +410,12 @@ export default function PracticeEvaluationQuiz() {
             <ArrowLeft className="w-4 h-4" strokeWidth={1.5} /> Salir
           </button>
           <div className="flex items-center gap-2">
-            <button
+            {/* <button
               onClick={fillRandomAnswers}
               className="text-[10px] text-slate-500 opacity-30 hover:opacity-100 transition-opacity mr-4 decoration-dotted underline"
             >
               Test Button
-            </button>
+            </button> */}
             <FlaskConical className="w-4 h-4 text-cyan-400" strokeWidth={1.5} />
             <span className="text-sm font-medium text-white">Ensayo</span>
           </div>
