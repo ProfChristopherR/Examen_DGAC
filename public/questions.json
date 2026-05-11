@@ -118,7 +118,7 @@
       "c": "Niebla en la vecindad.",
       "d": "Niebla en bancos."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "b"
   },
   {
     "number": 12,
@@ -129,7 +129,7 @@
       "c": "Pérdida.",
       "d": "Ganancia."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "c"
   },
   {
     "number": 13,
@@ -140,7 +140,7 @@
       "c": "9 kilos.",
       "d": "7 kilos."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 14,
@@ -151,7 +151,7 @@
       "c": "15 días hábiles.",
       "d": "7 días hábiles."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "b"
   },
   {
     "number": 15,
@@ -162,7 +162,7 @@
       "c": "DAR 51.",
       "d": "DAR 61."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "a"
   },
   {
     "number": 16,
@@ -173,7 +173,7 @@
       "c": "Con la pena de reclusión menor en cualquiera de sus grados y multa de 50 a 500 unidades tributarias mensuales.",
       "d": "Una multa determinada por la sección infraccional de la DGAC."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "d"
   },
   {
     "number": 17,
@@ -184,7 +184,7 @@
       "c": "Reparación de instalaciones.",
       "d": "Estación ausente o datos faltantes."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "b"
   },
   {
     "number": 18,
@@ -195,7 +195,7 @@
       "c": "14 kt.",
       "d": "01 kt."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "24"
   },
   {
     "number": 19,
@@ -217,7 +217,7 @@
       "c": "La sustentación distinta al peso.",
       "d": "La sustentación igual al peso."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "b"
   },
   {
     "number": 21,
@@ -228,7 +228,7 @@
       "c": "Operación más allá de la visibilidad directa visual (BVLOS).",
       "d": "Operación visual."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "d"
   },
   {
     "number": 22,
@@ -239,7 +239,7 @@
       "c": "Zona insegura.",
       "d": "Zona prohibida."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "a"
   },
   {
     "number": 23,
@@ -250,7 +250,7 @@
       "c": "La variación de presión con la temperatura.",
       "d": "El cambio de la dirección del viento."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "d"
   },
   {
     "number": 24,
@@ -261,7 +261,7 @@
       "c": "Niebla en la vecindad.",
       "d": "Niebla en bancos."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "a"
   },
   {
     "number": 25,
@@ -272,7 +272,7 @@
       "c": "450 pies.",
       "d": "120 pies."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "400"
   },
   {
     "number": 26,
@@ -283,7 +283,7 @@
       "c": "3.",
       "d": "12."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "d"
   },
   {
     "number": 27,
@@ -316,7 +316,7 @@
       "c": "Desempeñarse como operador de RPAS en cualquier condición.",
       "d": "a) y b)."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "a"
   },
   {
     "number": 30,
@@ -349,7 +349,7 @@
       "c": "Piloto a distancia.",
       "d": "Explotador a distancia."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "d"
   },
   {
     "number": 33,
@@ -360,7 +360,7 @@
       "c": "Operación en gestión de vuelo.",
       "d": "Operación autónoma."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "b"
   },
   {
     "number": 34,
@@ -371,7 +371,7 @@
       "c": "Relativa.",
       "d": "De la tierra hacia el mar."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 35,
@@ -382,7 +382,7 @@
       "c": "La fuerza resultante de la fuerza centrífuga y el peso.",
       "d": "La fuerza resultante de la sustentación y el peso de la aeronave."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "d"
   },
   {
     "number": 36,
@@ -415,7 +415,7 @@
       "c": "El aire se enfría por debajo de su punto de rocío.",
       "d": "Las nubes se enfrían por debajo de su punto de rocío."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "b"
   },
   {
     "number": 39,
@@ -426,7 +426,7 @@
       "c": "SC.",
       "d": "CI."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "a"
   },
   {
     "number": 40,
@@ -437,7 +437,7 @@
       "c": "La suma de la gravedad más la resistencia parásita.",
       "d": "La que se produce debido al peso de la aeronave."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "d"
   },
   {
     "number": 41,
@@ -448,7 +448,7 @@
       "c": "Cortante del viento.",
       "d": "Todas las anteriores."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "a"
   },
   {
     "number": 42,
@@ -459,7 +459,7 @@
       "c": "La fuerza perpendicular al viento relativo y desarrollada para realizar la tracción de la aeronave.",
       "d": "La fuerza aerodinámica que soporta el peso de la aeronave."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "b"
   },
   {
     "number": 43,
@@ -481,7 +481,7 @@
       "c": "50º C.",
       "d": "0° C."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "c"
   },
   {
     "number": 45,
@@ -492,7 +492,7 @@
       "c": "Por el rozamiento del aire con la superficie.",
       "d": "Por la relación entre ráfagas de viento y térmicas de calor."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "d"
   },
   {
     "number": 46,
@@ -503,7 +503,7 @@
       "c": "Solo I, II y III.",
       "d": "I, II, III y IV."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 47,
@@ -514,7 +514,7 @@
       "c": "3 grados.",
       "d": "Ninguna de las anteriores."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "3"
   },
   {
     "number": 48,
@@ -624,7 +624,7 @@
       "c": "Es un concepto que solo se ocupa en chile, respecto a la seguridad de las aeronaves.",
       "d": "Parámetro de seguridad basado en datos que se utiliza para observar y evaluar el rendimiento en materia de riesgo operacional."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "c"
   },
   {
     "number": 58,
@@ -635,7 +635,7 @@
       "c": "La DGAC.",
       "d": "El piloto a distancia."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "b"
   },
   {
     "number": 59,
@@ -701,7 +701,7 @@
       "c": "Presentar una declaración jurada simple firmada manualmente que incluya huella digital de la persona que suscribe de haber recibido instrucción teórica y práctica de acuerdo al formulario del apéndice c de la norma, acompañado del respectivo certificado de la empresa que impartió la instrucción.",
       "d": "Obtener una calificación mínima de aprobación de los exámenes de 70%."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "24"
   },
   {
     "number": 65,
@@ -712,7 +712,7 @@
       "c": "Solo I, III y IV",
       "d": "I, II, III y IV."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 66,
@@ -723,7 +723,7 @@
       "c": "Operar en la noche con una autorización especial de la DGAC.",
       "d": "Operar sin tomar conocimiento de los NOTAMS vigentes publicados por la DGAC."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "a"
   },
   {
     "number": 67,
@@ -756,7 +756,7 @@
       "c": "Neblina y 20 metros.",
       "d": "Humo y 200 pies."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "c"
   },
   {
     "number": 70,
@@ -789,7 +789,7 @@
       "c": "Carabineros de Chile y la denuncia al Juzgado de Policía Local.",
       "d": "Solo a la DGAC."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "a"
   },
   {
     "number": 73,
@@ -833,7 +833,7 @@
       "c": "Cuando cuente con autorización de la Torre de Control.",
       "d": "Cuando esté en una situación de emergencia."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "c"
   },
   {
     "number": 77,
@@ -844,7 +844,7 @@
       "c": "En zona no poblada, con la autorización formal de la DGAC hasta 400 pies.",
       "d": "En lugar privado y siempre que no opere a más de 50 metros de altura y con un peso inferior a 750 grs."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "b"
   },
   {
     "number": 78,
@@ -855,7 +855,7 @@
       "c": "La corriente o flujo de aire moviéndose hacia el perfil, siendo opuesto a la trayectoria de vuelo.",
       "d": "El formado por el aspa al pasar por el perfil alar."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "d"
   },
   {
     "number": 79,
@@ -866,6 +866,6 @@
       "c": "Espacio aéreo de dimensiones definidas sobre el territorio o las aguas jurisdiccionales de chile, dentro del cual está restringido el vuelo de las aeronaves de acuerdo con determinadas condiciones especificadas.",
       "d": "Ninguna de las anteriores."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "c"
   }
 ]
