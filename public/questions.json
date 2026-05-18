@@ -118,7 +118,7 @@
       "c": "Niebla en la vecindad.",
       "d": "Niebla en bancos."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "c"
   },
   {
     "number": 12,
@@ -129,7 +129,7 @@
       "c": "Pérdida.",
       "d": "Ganancia."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "b"
   },
   {
     "number": 13,
@@ -151,7 +151,7 @@
       "c": "15 días hábiles.",
       "d": "7 días hábiles."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "d"
   },
   {
     "number": 15,
@@ -162,7 +162,7 @@
       "c": "DAR 51.",
       "d": "DAR 61."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "c"
   },
   {
     "number": 16,
@@ -173,7 +173,7 @@
       "c": "Con la pena de reclusión menor en cualquiera de sus grados y multa de 50 a 500 unidades tributarias mensuales.",
       "d": "Una multa determinada por la sección infraccional de la DGAC."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 17,
@@ -195,7 +195,7 @@
       "c": "14 kt.",
       "d": "01 kt."
     },
-    "correctAnswer": "24"
+    "correctAnswer": "b"
   },
   {
     "number": 19,
@@ -206,7 +206,7 @@
       "c": "Solo I, III, IV.",
       "d": "I, II, III y IV."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 20,
@@ -217,7 +217,7 @@
       "c": "La sustentación distinta al peso.",
       "d": "La sustentación igual al peso."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "d"
   },
   {
     "number": 21,
@@ -228,18 +228,18 @@
       "c": "Operación más allá de la visibilidad directa visual (BVLOS).",
       "d": "Operación visual."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "b"
   },
   {
     "number": 22,
-    "question": "“Espacio aéreo de dimensiones definidas sobre el territorio o las aguas jurisdiccionales de chile dentro del cual está prohibido el vuelo de aeronaves por razones de seguridad nacional”. se denomina:",
+    "question": "Espacio aéreo de dimensiones definidas sobre el territorio o las aguas jurisdiccionales de chile dentro del cual está prohibido el vuelo de aeronaves por razones de seguridad nacional. se denomina:",
     "options": {
       "a": "Zona restringida.",
       "b": "Zona peligrosa.",
       "c": "Zona insegura.",
       "d": "Zona prohibida."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "d"
   },
   {
     "number": 23,
@@ -250,7 +250,7 @@
       "c": "La variación de presión con la temperatura.",
       "d": "El cambio de la dirección del viento."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "a"
   },
   {
     "number": 24,
@@ -261,7 +261,7 @@
       "c": "Niebla en la vecindad.",
       "d": "Niebla en bancos."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "d"
   },
   {
     "number": 25,
@@ -272,7 +272,7 @@
       "c": "450 pies.",
       "d": "120 pies."
     },
-    "correctAnswer": "400"
+    "correctAnswer": "a"
   },
   {
     "number": 26,
@@ -320,7 +320,7 @@
   },
   {
     "number": 30,
-    "question": "La definición de “áreas pobladas” es:",
+    "question": "La definición de 'areas pobladas' es:",
     "options": {
       "a": "Zonas destinadas para espectáculos de congregación masiva de personas.",
       "b": "Zonas en las que se desarrollen actividades que convoquen la aglomeración de personas al aire libre.",
@@ -342,25 +342,25 @@
   },
   {
     "number": 32,
-    "question": "La definición: “persona designada por el explotador para operar los controles de vuelo de una aeronave pilotada a distancia durante el tiempo de vuelo. a falta de persona designada, se presumirá que el piloto es quien dirige la operación de vuelo”, corresponde al concepto de:",
+    "question": "La definición: 'persona designada por el explotador para operar los controles de vuelo de una aeronave pilotada a distancia durante el tiempo de vuelo. a falta de persona designada, se presumirá que el piloto es quien dirige la operación de vuelo', corresponde al concepto de:",
     "options": {
       "a": "Piloto.",
       "b": "Explorador.",
       "c": "Piloto a distancia.",
       "d": "Explotador a distancia."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 33,
-    "question": "La definición: “una operación durante la cual una aeronave pilotada a distancia vuela sin intervención de piloto en la gestión de vuelo”, corresponde al concepto de:",
+    "question": "La definición: 'una operación durante la cual una aeronave pilotada a distancia vuela sin intervención de piloto en la gestión de vuelo', corresponde al concepto de:",
     "options": {
       "a": "Operación restringida.",
       "b": "Operación con visibilidad directa visual.",
       "c": "Operación en gestión de vuelo.",
       "d": "Operación autónoma."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "d"
   },
   {
     "number": 34,
@@ -371,7 +371,7 @@
       "c": "Relativa.",
       "d": "De la tierra hacia el mar."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "d"
   },
   {
     "number": 35,
@@ -382,7 +382,7 @@
       "c": "La fuerza resultante de la fuerza centrífuga y el peso.",
       "d": "La fuerza resultante de la sustentación y el peso de la aeronave."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "b"
   },
   {
     "number": 36,
@@ -415,7 +415,7 @@
       "c": "El aire se enfría por debajo de su punto de rocío.",
       "d": "Las nubes se enfrían por debajo de su punto de rocío."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "c"
   },
   {
     "number": 39,
@@ -426,7 +426,7 @@
       "c": "SC.",
       "d": "CI."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "b"
   },
   {
     "number": 40,
@@ -437,7 +437,7 @@
       "c": "La suma de la gravedad más la resistencia parásita.",
       "d": "La que se produce debido al peso de la aeronave."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "a"
   },
   {
     "number": 41,
@@ -448,7 +448,7 @@
       "c": "Cortante del viento.",
       "d": "Todas las anteriores."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "d"
   },
   {
     "number": 42,
@@ -459,7 +459,7 @@
       "c": "La fuerza perpendicular al viento relativo y desarrollada para realizar la tracción de la aeronave.",
       "d": "La fuerza aerodinámica que soporta el peso de la aeronave."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "a"
   },
   {
     "number": 43,
@@ -481,7 +481,7 @@
       "c": "50º C.",
       "d": "0° C."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "b"
   },
   {
     "number": 45,
@@ -492,7 +492,7 @@
       "c": "Por el rozamiento del aire con la superficie.",
       "d": "Por la relación entre ráfagas de viento y térmicas de calor."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 46,
@@ -503,7 +503,7 @@
       "c": "Solo I, II y III.",
       "d": "I, II, III y IV."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "d"
   },
   {
     "number": 47,
@@ -514,7 +514,7 @@
       "c": "3 grados.",
       "d": "Ninguna de las anteriores."
     },
-    "correctAnswer": "3"
+    "correctAnswer": "c"
   },
   {
     "number": 48,
@@ -624,7 +624,7 @@
       "c": "Es un concepto que solo se ocupa en chile, respecto a la seguridad de las aeronaves.",
       "d": "Parámetro de seguridad basado en datos que se utiliza para observar y evaluar el rendimiento en materia de riesgo operacional."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "a"
   },
   {
     "number": 58,
@@ -635,7 +635,7 @@
       "c": "La DGAC.",
       "d": "El piloto a distancia."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "a"
   },
   {
     "number": 59,
@@ -701,7 +701,7 @@
       "c": "Presentar una declaración jurada simple firmada manualmente que incluya huella digital de la persona que suscribe de haber recibido instrucción teórica y práctica de acuerdo al formulario del apéndice c de la norma, acompañado del respectivo certificado de la empresa que impartió la instrucción.",
       "d": "Obtener una calificación mínima de aprobación de los exámenes de 70%."
     },
-    "correctAnswer": "24"
+    "correctAnswer": "c"
   },
   {
     "number": 65,
@@ -712,7 +712,7 @@
       "c": "Solo I, III y IV",
       "d": "I, II, III y IV."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "a"
   },
   {
     "number": 66,
@@ -723,7 +723,7 @@
       "c": "Operar en la noche con una autorización especial de la DGAC.",
       "d": "Operar sin tomar conocimiento de los NOTAMS vigentes publicados por la DGAC."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "c"
   },
   {
     "number": 67,
@@ -756,7 +756,7 @@
       "c": "Neblina y 20 metros.",
       "d": "Humo y 200 pies."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "a"
   },
   {
     "number": 70,
@@ -789,7 +789,7 @@
       "c": "Carabineros de Chile y la denuncia al Juzgado de Policía Local.",
       "d": "Solo a la DGAC."
     },
-    "correctAnswer": "a"
+    "correctAnswer": "c"
   },
   {
     "number": 73,
@@ -833,7 +833,7 @@
       "c": "Cuando cuente con autorización de la Torre de Control.",
       "d": "Cuando esté en una situación de emergencia."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "b"
   },
   {
     "number": 77,
@@ -844,7 +844,7 @@
       "c": "En zona no poblada, con la autorización formal de la DGAC hasta 400 pies.",
       "d": "En lugar privado y siempre que no opere a más de 50 metros de altura y con un peso inferior a 750 grs."
     },
-    "correctAnswer": "b"
+    "correctAnswer": "d"
   },
   {
     "number": 78,
@@ -855,7 +855,7 @@
       "c": "La corriente o flujo de aire moviéndose hacia el perfil, siendo opuesto a la trayectoria de vuelo.",
       "d": "El formado por el aspa al pasar por el perfil alar."
     },
-    "correctAnswer": "d"
+    "correctAnswer": "c"
   },
   {
     "number": 79,
@@ -866,6 +866,6 @@
       "c": "Espacio aéreo de dimensiones definidas sobre el territorio o las aguas jurisdiccionales de chile, dentro del cual está restringido el vuelo de las aeronaves de acuerdo con determinadas condiciones especificadas.",
       "d": "Ninguna de las anteriores."
     },
-    "correctAnswer": "c"
+    "correctAnswer": "b"
   }
 ]
